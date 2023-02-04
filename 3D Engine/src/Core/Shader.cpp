@@ -17,8 +17,8 @@ namespace Engine3D
 		{
 			int length;
 			glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-			auto message = (char*)_malloca(length * sizeof(char));
-			glGetShaderInfoLog(id, length, &length, message);
+			auto message = malloc(length * sizeof(char));
+			glGetShaderInfoLog(id, length, &length, (GLchar*)message);
 			std::cout << message << std::endl;
 			glDeleteShader(id);
 			delete(message);
@@ -30,7 +30,8 @@ namespace Engine3D
 		std::fstream file(filePath, std::ios::in);
 		if (!file.is_open())
 		{
-			std::cout << filePath << "failed to open" << std::endl;
+			std::cout << "Failed to load shader: " << filePath << std::endl;
+			return "err";
 		}
 
 		std::string content;

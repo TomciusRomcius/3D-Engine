@@ -9,6 +9,10 @@ namespace Engine3D
 		glAttachShader(id, vertexShader->Id());
 		glAttachShader(id, fragmentShader->Id());
 		glLinkProgram(id);
+
+		int status;
+		glGetProgramiv(id, GL_LINK_STATUS, &status);
+		error = (status != 0);
 	}
 
 	void Program::UseProgram() const
@@ -19,5 +23,9 @@ namespace Engine3D
 	unsigned int Program::Id() const
 	{
 		return id;
+	}
+	bool Program::Error() const
+	{
+		return error;
 	}
 }

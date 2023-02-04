@@ -9,7 +9,9 @@ namespace Engine3D
 		Program(Shader* vertexShader, Shader* fragmentShader);
 		void UseProgram() const;
 		unsigned int Id() const;
+		bool Error() const;
 	private:
 		unsigned int id;
+		bool error;
 	};
 }
