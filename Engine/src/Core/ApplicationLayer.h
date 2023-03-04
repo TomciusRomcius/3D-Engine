@@ -20,7 +20,7 @@
 
 namespace Engine3D
 {
-	class ApplicationLayer
+	class ENGINE_API ApplicationLayer
 	{
 	public:
 		static void Start();

@@ -163,6 +163,7 @@
     <ClInclude Include="src\Core\Shader.h" />
     <ClInclude Include="src\Core\Time.h" />
     <ClInclude Include="src\Core\VBO.h" />
+    <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\enpch.h" />
   </ItemGroup>
   <ItemGroup>

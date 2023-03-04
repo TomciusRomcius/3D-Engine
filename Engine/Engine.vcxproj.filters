@@ -54,6 +54,7 @@
     <ClInclude Include="src\Core\VBO.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\enpch.h" />
   </ItemGroup>
   <ItemGroup>

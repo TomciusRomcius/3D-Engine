@@ -2,6 +2,9 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
+      <FullPath>D:\Projects\programming\Cpp\3D-Engine\bin\Debug-windows-x86_64\Engine\Engine.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>D:\Projects\programming\Cpp\3D-Engine\bin\Debug-windows-x86_64\Sandbox\Sandbox.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>

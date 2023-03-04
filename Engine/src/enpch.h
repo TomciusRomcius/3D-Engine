@@ -1,5 +1,8 @@
 #pragma once
 
+#define ENGINE_API _declspec(dllexport)
+
+
 // OpenGL
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"

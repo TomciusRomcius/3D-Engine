@@ -3,7 +3,7 @@
 
 namespace Engine3D
 {
-    class Event
+    class _declspec(dllexport) Event
     {
     private:
         // Callbacks

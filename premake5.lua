@@ -72,12 +72,24 @@ workspace "3D-Engine"
         }
         includedirs
         {
+            "vendor/glfw/include",
+            "vendor/glew/include",
+            "vendor/glm-master",
             "Engine/src"
+        }
+
+        libdirs
+        {
+            "vendor/glfw/lib",
+            "vendor/glew/lib/Release/x64"
         }
 
         links
         {
-            "Engine.dll"
+            "Engine",
+            "opengl32.lib",
+            "glew32s.lib",
+            "glfw3.lib"
         }
         filter "configurations:Debug"
             defines {"DEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}
