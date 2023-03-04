@@ -9,8 +9,6 @@ void bra()
 }
 namespace Engine3D
 {
-
-	GLFWwindow* ApplicationLayer::WINDOW;
 	void ApplicationLayer::Start()
 	{
 		// Initialize GLFW and GLEW, Create window, setup Key and Error callbacks

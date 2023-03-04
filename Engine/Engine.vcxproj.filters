@@ -76,9 +76,6 @@
     <ClCompile Include="src\Core\EBO.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Entrypoint.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="src\Core\Event.cpp">
       <Filter>Core</Filter>
     </ClCompile>

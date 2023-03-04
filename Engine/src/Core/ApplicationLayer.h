@@ -23,11 +23,13 @@ namespace Engine3D
 	class ENGINE_API ApplicationLayer
 	{
 	public:
-		static void Start();
-		static void MainLoop();
-		virtual void CreateWindow() = 0;
+		void Start();
+		void MainLoop();
 	private:
-		static GLFWwindow* WINDOW;
-		static void RenderUI();
+		GLFWwindow* WINDOW;
+		void RenderUI();
 	};
+	extern ENGINE_API Engine3D::ApplicationLayer* CreateApplication();
+
+
 }

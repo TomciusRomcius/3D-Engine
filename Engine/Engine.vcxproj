@@ -173,7 +173,6 @@
     <ClCompile Include="src\Core\ApplicationLayer.cpp" />
     <ClCompile Include="src\Core\DebugLayer.cpp" />
     <ClCompile Include="src\Core\EBO.cpp" />
-    <ClCompile Include="src\Core\Entrypoint.cpp" />
     <ClCompile Include="src\Core\Event.cpp" />
     <ClCompile Include="src\Core\FrameBuffer.cpp" />
     <ClCompile Include="src\Core\ObjectSystem.cpp" />
