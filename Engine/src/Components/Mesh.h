@@ -17,7 +17,7 @@ namespace Engine3D
 		std::unique_ptr<EBO> ebo;
 		std::vector<glm::vec3> vertices;
 		std::vector<unsigned int> indices;
-		std::vector<float> texCoords;
+		std::vector<glm::vec2> texCoords;
 		std::vector<float> normals;
 	};
 }
