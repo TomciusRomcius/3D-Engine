@@ -10,12 +10,14 @@ namespace Engine3D
 		vertexShader = std::make_unique<Shader>(GL_VERTEX_SHADER, "vertex.shader");
 		fragmentShader = std::make_unique<Shader>(GL_FRAGMENT_SHADER, "fragment.shader");
 		program = std::make_unique<Program>(vertexShader.get(), fragmentShader.get());
+		texture = std::make_unique<Texture>("../Textures/brick.jpg");
 	}
 
 	void MeshRenderer::Update()
 	{
 		
 		program->UseProgram();
+		texture->Bind();
 		SetShaderUniforms();
 		this->object->GetComponent<Mesh>().vbo->Bind();
 		this->object->GetComponent<Mesh>().ebo->Bind();

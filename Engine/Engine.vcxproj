@@ -79,7 +79,7 @@
       <PrecompiledHeaderFile>enpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DEBUG;EN_BUILD_DLL;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\vendor\glfw\include;..\vendor\glew\include;..\vendor\glm-master;..\vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\vendor\glfw\include;..\vendor\glew\include;..\vendor\glm-master;..\vendor\spdlog\include;..\vendor\stb\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
@@ -101,7 +101,7 @@
       <PrecompiledHeaderFile>enpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;EN_BUILD_DLL;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\vendor\glfw\include;..\vendor\glew\include;..\vendor\glm-master;..\vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\vendor\glfw\include;..\vendor\glew\include;..\vendor\glm-master;..\vendor\spdlog\include;..\vendor\stb\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -127,7 +127,7 @@
       <PrecompiledHeaderFile>enpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;Dist;EN_BUILD_DLL;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\vendor\glfw\include;..\vendor\glew\include;..\vendor\glm-master;..\vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\vendor\glfw\include;..\vendor\glew\include;..\vendor\glm-master;..\vendor\spdlog\include;..\vendor\stb\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -148,7 +148,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Core\Log.h" />
     <ClInclude Include="src\Components\IComponent.h" />
     <ClInclude Include="src\Components\Mesh.h" />
     <ClInclude Include="src\Components\MeshRenderer.h" />
@@ -158,17 +157,18 @@
     <ClInclude Include="src\Core\EBO.h" />
     <ClInclude Include="src\Core\Event.h" />
     <ClInclude Include="src\Core\FrameBuffer.h" />
+    <ClInclude Include="src\Core\Log.h" />
     <ClInclude Include="src\Core\ObjectSystem.h" />
     <ClInclude Include="src\Core\Program.h" />
     <ClInclude Include="src\Core\SceneCamera.h" />
     <ClInclude Include="src\Core\Shader.h" />
+    <ClInclude Include="src\Core\Texture.h" />
     <ClInclude Include="src\Core\Time.h" />
     <ClInclude Include="src\Core\VBO.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\enpch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Core\Log.cpp" />
     <ClCompile Include="src\Components\Mesh.cpp" />
     <ClCompile Include="src\Components\MeshRenderer.cpp" />
     <ClCompile Include="src\Components\Transform.cpp" />
@@ -177,10 +177,12 @@
     <ClCompile Include="src\Core\EBO.cpp" />
     <ClCompile Include="src\Core\Event.cpp" />
     <ClCompile Include="src\Core\FrameBuffer.cpp" />
+    <ClCompile Include="src\Core\Log.cpp" />
     <ClCompile Include="src\Core\ObjectSystem.cpp" />
     <ClCompile Include="src\Core\Program.cpp" />
     <ClCompile Include="src\Core\SceneCamera.cpp" />
     <ClCompile Include="src\Core\Shader.cpp" />
+    <ClCompile Include="src\Core\Texture.cpp" />
     <ClCompile Include="src\Core\Time.cpp" />
     <ClCompile Include="src\Core\VBO.cpp" />
     <ClCompile Include="src\enpch.cpp">

@@ -26,6 +26,7 @@ workspace "3D-Engine"
             "vendor/glew/include",
             "vendor/glm-master",
             "vendor/spdlog/include",
+            "vendor/stb/include",
             "%{prj.name}/src/"
         }
 
@@ -77,6 +78,7 @@ workspace "3D-Engine"
             "vendor/glew/include",
             "vendor/glm-master",
             "vendor/spdlog/include",
+            "vendor/stb/include",
             "Engine/src"
         }
 

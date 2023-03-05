@@ -36,6 +36,9 @@
     <ClInclude Include="src\Core\FrameBuffer.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Log.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\ObjectSystem.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -48,6 +51,9 @@
     <ClInclude Include="src\Core\Shader.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Texture.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\Time.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -56,7 +62,6 @@
     </ClInclude>
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\enpch.h" />
-    <ClInclude Include="src\Core\Log.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Components\Mesh.cpp">
@@ -83,6 +88,9 @@
     <ClCompile Include="src\Core\FrameBuffer.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Log.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\Core\ObjectSystem.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -95,6 +103,9 @@
     <ClCompile Include="src\Core\Shader.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Texture.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\Core\Time.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -102,6 +113,5 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="src\enpch.cpp" />
-    <ClCompile Include="src\Core\Log.cpp" />
   </ItemGroup>
 </Project>

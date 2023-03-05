@@ -45,6 +45,7 @@ namespace Engine3D
 			return;
 		}
 		
+		glEnable(GL_DEPTH_TEST);
 
 		// Initialize ImGui
 
@@ -107,7 +108,7 @@ namespace Engine3D
 			// GLFW
 
 			glfwSwapBuffers(WINDOW);
-			glClear(GL_COLOR_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			glfwPollEvents();
 
 
