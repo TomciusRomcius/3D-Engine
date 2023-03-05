@@ -20,10 +20,11 @@ namespace Engine3D
 	};
 
 
+
 	#define EN_CORE_ERROR(...) Engine3D::Log::GetInstance().GetEngineLogger()->error(__VA_ARGS__);
 	#define EN_CORE_WARN(...) Engine3D::Log::GetInstance().GetEngineLogger()->warn(__VA_ARGS__);
 	#define EN_CORE_INFO(...) Engine3D::Log::GetInstance().GetEngineLogger()->info(__VA_ARGS__);
-	#define EN_CORE_TRACE(...) Engine3D::Log::GetInstance().GetEngineLogger()->trace(__VA_ARGS__);
+	#define EN_CORE_INFO(...) Engine3D::Log::GetInstance().GetEngineLogger()->trace(__VA_ARGS__);
 
 	#define EN_ERROR(...)Engine3D::Log::GetInstance().GetEngineLogger()->error(__VA_ARGS__);
 	#define EN_WARN(...) Engine3D::Log::GetInstance().GetEngineLogger()->warn(__VA_ARGS__);

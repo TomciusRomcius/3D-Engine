@@ -17,7 +17,6 @@ OIdHander* OIdHander::GetInstance()
 	std::lock_guard<std::mutex> lock(mutex);
 	if (instance == nullptr) {
 		instance = new OIdHander();
-		std::cout << "New Instance" << std::endl;
 		for (int i = 0; i < MAX_OBJECTS; i++)
 		{
 			mAvailableIds.push(i);
@@ -49,7 +48,6 @@ ComponentManager& ComponentManager::GetInstance()
 	if (instance == nullptr)
 	{
 		instance = new ComponentManager();
-		std::cout << "Cmanager" << std::endl;
 
 		return *instance;
 	}

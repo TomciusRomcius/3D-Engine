@@ -31,7 +31,7 @@ namespace Engine3D
 		file.open(modelPath);
 		if (!file.is_open())
 		{
-			std::cout << "Failed to load model: " << modelPath;
+			EN_ERROR("Failed to load model: " + std::string(modelPath));
 			return;
 		}
 		std::string line;
@@ -65,5 +65,6 @@ namespace Engine3D
 
 		vbo = std::make_unique<VBO>(vertices);
 		ebo = std::make_unique<EBO>(indices);
+		EN_INFO("Succesfully loaded model: " + std::string(modelPath))
 	}
 }

@@ -15,12 +15,17 @@ namespace Engine3D
 		// Initialize GLFW and GLEW, Create window, setup Key and Error callbacks
 		if (!glfwInit())
 		{
-			std::cout << "Failed to initialize GLFW, exiting..." << std::endl;
+			EN_ERROR("Failed to initialize GLFW, exiting...")
 			return;
 		}
 		
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		int versionminor = 3;
+		int versionmajor = 3;
+
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, versionminor);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, versionmajor);
+
+
 
 		// Create Window
 		Application::WINDOW = glfwCreateWindow(1280, 720, "OpenGL 3D Modeler", nullptr, nullptr);
@@ -30,6 +35,8 @@ namespace Engine3D
 			std::cout << "Failed to create the window, exiting..." << std::endl;
 			return;
 		}
+
+
 		glfwMakeContextCurrent(WINDOW);
 		glViewport(0, 0, 1280, 720);
 		if (glewInit() != GLEW_OK)
@@ -38,6 +45,7 @@ namespace Engine3D
 			return;
 		}
 		
+
 		// Initialize ImGui
 
 		

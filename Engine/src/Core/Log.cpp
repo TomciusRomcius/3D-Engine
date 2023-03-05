@@ -24,7 +24,6 @@ namespace Engine3D
 	{
 		if (instance == nullptr)
 		{
-			std::cout << "A" << std::endl;
 			instance = new Log();
 			return *instance;
 		}
