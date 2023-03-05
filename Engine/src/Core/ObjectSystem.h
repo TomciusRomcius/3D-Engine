@@ -2,7 +2,7 @@
 #include <mutex>
 
 constexpr unsigned int MAX_COMPONENTS = 100;
-constexpr unsigned int MAX_OBJECTS = 20;
+constexpr unsigned int MAX_OBJECTS = 500;
 using ObjectID = unsigned int;
 
 class ENGINE_API Object;

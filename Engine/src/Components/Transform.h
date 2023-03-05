@@ -11,6 +11,9 @@ namespace Engine3D
 		void Start();
 		void Update();
 		glm::mat4 Mvp() const;
+		glm::vec3 position;
+		glm::vec3 scale;
+		glm::vec3 rotation;
 
 	private:
 		void UpdateMatrices(); // Responsible for updating matrices
@@ -20,8 +23,5 @@ namespace Engine3D
 		glm::mat4 view; // World space
 		glm::mat4 projection; // Screen space
 
-		glm::vec3 position;
-		glm::vec3 scale;
-		glm::vec3 rotation;
 	};
 }

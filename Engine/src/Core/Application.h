@@ -18,6 +18,8 @@
 #include "../Components/Mesh.h"
 #include "../Components/MeshRenderer.h"
 
+#include "Log.h"
+
 namespace Engine3D
 {
 	class ENGINE_API Application
