@@ -75,6 +75,10 @@ namespace Engine3D
 		std::chrono::high_resolution_clock::time_point s = std::chrono::high_resolution_clock::now();
 		std::chrono::high_resolution_clock::time_point e;
 
+		// Variables for calculating fps
+
+		int frames = 0;
+		double sT = glfwGetTime();
 
 		while (!glfwWindowShouldClose(WINDOW))
 		{
@@ -91,6 +95,16 @@ namespace Engine3D
 			Time::ElapsedTime = (float)(e - s).count() / 1000000000.f;
 
 			// Calculate delta time
+			
+			double sN = glfwGetTime();
+			frames++;
+			if (sN - sT >= 1.0)
+			{
+				std::cout << frames / Time::ElapsedTime << std::endl;
+				sT = sN;
+				frames = 0;
+
+			}
 
 			t2 = t1;
 			t1 = std::chrono::high_resolution_clock::now();

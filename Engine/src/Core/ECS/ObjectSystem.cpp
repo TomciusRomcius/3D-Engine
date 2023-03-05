@@ -1,14 +1,15 @@
 #include "enpch.h"
 #include "ObjectSystem.h"
 
+#include <mutex>
+
+
 // Define the static variables
 
-std::mutex ComponentManager::mutex;
 
 OIdHander* OIdHander::instance = nullptr;
 std::mutex OIdHander::mutex;
 std::queue<unsigned int> OIdHander::mAvailableIds;
-ComponentManager* ComponentManager::instance = nullptr;
 
 
 
@@ -42,24 +43,3 @@ inline Object::~Object() {
 	OIdHander::GetInstance()->mAvailableIds.push(mId);
 }
 
-ComponentManager& ComponentManager::GetInstance()
-{
-
-	if (instance == nullptr)
-	{
-		instance = new ComponentManager();
-
-		return *instance;
-	}
-	return *instance;
-}
-
-void ComponentManager::Update() // Gets called every frame
-{
-	// Call update on all component arrays
-	std::lock_guard<std::mutex> lock(mutex);
-	for (auto componentA : instance->mComponentArrays)
-	{
-		componentA.second.get()->Update();
-	}
-}

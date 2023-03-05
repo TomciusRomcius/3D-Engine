@@ -39,7 +39,7 @@
     <ClInclude Include="src\Core\Log.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\ObjectSystem.h">
+    <ClInclude Include="src\Core\ECS\ObjectSystem.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Program.h">
@@ -62,6 +62,8 @@
     </ClInclude>
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\enpch.h" />
+    <ClInclude Include="src\Core\ECS\ComponentArray.h" />
+    <ClInclude Include="src\Core\ECS\ComponentManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Components\Mesh.cpp">
@@ -91,7 +93,7 @@
     <ClCompile Include="src\Core\Log.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\ObjectSystem.cpp">
+    <ClCompile Include="src\Core\ECS\ObjectSystem.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Program.cpp">
@@ -113,5 +115,6 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="src\enpch.cpp" />
+    <ClCompile Include="src\Core\ECS\ComponentManager.cpp" />
   </ItemGroup>
 </Project>

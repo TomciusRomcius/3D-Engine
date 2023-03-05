@@ -12,7 +12,7 @@
 
 #include "Time.h"
 
-#include "ObjectSystem.h"
+#include "ECS/ObjectSystem.h"
 #include "../Components/IComponent.h"
 #include "../Components/Transform.h"
 #include "../Components/Mesh.h"
