@@ -83,6 +83,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -152,7 +153,7 @@
     <ClInclude Include="src\Components\Mesh.h" />
     <ClInclude Include="src\Components\MeshRenderer.h" />
     <ClInclude Include="src\Components\Transform.h" />
-    <ClInclude Include="src\Core\ApplicationLayer.h" />
+    <ClInclude Include="src\Core\Application.h" />
     <ClInclude Include="src\Core\DebugLayer.h" />
     <ClInclude Include="src\Core\EBO.h" />
     <ClInclude Include="src\Core\Event.h" />
@@ -170,7 +171,7 @@
     <ClCompile Include="src\Components\Mesh.cpp" />
     <ClCompile Include="src\Components\MeshRenderer.cpp" />
     <ClCompile Include="src\Components\Transform.cpp" />
-    <ClCompile Include="src\Core\ApplicationLayer.cpp" />
+    <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Core\DebugLayer.cpp" />
     <ClCompile Include="src\Core\EBO.cpp" />
     <ClCompile Include="src\Core\Event.cpp" />

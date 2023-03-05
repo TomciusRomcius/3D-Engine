@@ -4,7 +4,7 @@
 
 namespace Engine3D
 {
-	class Transform : public IComponent
+	class ENGINE_API Transform : public  IComponent
 	{
 	public:
 

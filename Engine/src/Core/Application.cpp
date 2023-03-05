@@ -1,5 +1,5 @@
 #include "enpch.h"
-#include "ApplicationLayer.h"
+#include "Application.h"
 #include "../Components/Transform.h"
 
 
@@ -9,8 +9,9 @@ void bra()
 }
 namespace Engine3D
 {
-	void ApplicationLayer::Start()
+	void Application::Initialize()
 	{
+		
 		// Initialize GLFW and GLEW, Create window, setup Key and Error callbacks
 		if (!glfwInit())
 		{
@@ -22,7 +23,7 @@ namespace Engine3D
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
 		// Create Window
-		ApplicationLayer::WINDOW = glfwCreateWindow(1280, 720, "OpenGL 3D Modeler", nullptr, nullptr);
+		Application::WINDOW = glfwCreateWindow(1280, 720, "OpenGL 3D Modeler", nullptr, nullptr);
 
 		if (WINDOW == nullptr)
 		{
@@ -45,17 +46,18 @@ namespace Engine3D
 		DebugLayer::Initialize(WINDOW);
 
 		// Important to call before creating first object
-		Object::InitQueue();
 
 		// Register primary components
 		ComponentManager::GetInstance().RegisterComponent<Transform>();
 		ComponentManager::GetInstance().RegisterComponent<Mesh>();
 		ComponentManager::GetInstance().RegisterComponent<MeshRenderer>();
 
-		ApplicationLayer::MainLoop();
+		Start();
+
+		MainLoop();
 	}
 
-	void ApplicationLayer::MainLoop()
+	void Application::MainLoop()
 	{
 		// Time variables for calculating delta 
 		std::chrono::high_resolution_clock::time_point t1;
@@ -64,11 +66,6 @@ namespace Engine3D
 		std::chrono::high_resolution_clock::time_point s = std::chrono::high_resolution_clock::now();
 		std::chrono::high_resolution_clock::time_point e;
 
-		Object* o = new Object();
-		o->AddComponent<Transform>();
-		o->AddComponent<Mesh>();
-		o->AddComponent<MeshRenderer>();
-
 
 		while (!glfwWindowShouldClose(WINDOW))
 		{
@@ -76,6 +73,8 @@ namespace Engine3D
 
 			ComponentManager::Update();
 			SceneCamera::Move();
+
+			Application::Update();
 
 			// Calculate elapsed time
 
@@ -108,7 +107,7 @@ namespace Engine3D
 
 		}
 	}
-	void ApplicationLayer::RenderUI()
+	void Application::RenderUI()
 	{
 		/*
 		ImGui::Begin("Viewport");

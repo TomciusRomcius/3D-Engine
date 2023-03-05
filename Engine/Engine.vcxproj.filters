@@ -21,7 +21,7 @@
     <ClInclude Include="src\Components\Transform.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\ApplicationLayer.h">
+    <ClInclude Include="src\Core\Application.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\DebugLayer.h">
@@ -67,7 +67,7 @@
     <ClCompile Include="src\Components\Transform.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\ApplicationLayer.cpp">
+    <ClCompile Include="src\Core\Application.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\DebugLayer.cpp">

@@ -1,12 +1,14 @@
 #include "enpch.h"
 #include "Shader.h"
 
+#define DSHADER_PATH(shader) ("../Engine/Shaders/" + std::string(shader)).c_str()
+
 namespace Engine3D
 {
 	Shader::Shader(unsigned int shaderType, const char* src)
 	{
 		id = glCreateShader(shaderType);
-		std::string source = ReadSource(src);
+		std::string source = ReadSource(DSHADER_PATH(src));
 		const char* csource = source.c_str();
 		glShaderSource(id, 1, &csource, 0);
 		glCompileShader(id);

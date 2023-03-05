@@ -7,19 +7,21 @@ namespace Engine3D
 	{
 		// Initialize default program
 
-		vertexShader = std::make_unique<Shader>(GL_VERTEX_SHADER, "src/shaders/vertex.shader");
-		fragmentShader = std::make_unique<Shader>(GL_FRAGMENT_SHADER, "src/shaders/fragment.shader");
+		vertexShader = std::make_unique<Shader>(GL_VERTEX_SHADER, "vertex.shader");
+		fragmentShader = std::make_unique<Shader>(GL_FRAGMENT_SHADER, "fragment.shader");
 		program = std::make_unique<Program>(vertexShader.get(), fragmentShader.get());
 	}
 
 	void MeshRenderer::Update()
 	{
+		
 		program->UseProgram();
 		SetShaderUniforms();
 		this->object->GetComponent<Mesh>().vbo->Bind();
 		this->object->GetComponent<Mesh>().ebo->Bind();
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+		int i = this->object->GetComponent<Mesh>().indices.size();
+		glDrawElements(GL_TRIANGLES, this->object->GetComponent<Mesh>().indices.size(), GL_UNSIGNED_INT, nullptr);
+		
 	}
 
 	void MeshRenderer::SetShaderUniforms()

@@ -10,6 +10,7 @@
 // Data types
 #include <vector>
 #include <string>
+#include <sstream>
 #include <map>
 #include <unordered_map>
 #include <unordered_map>

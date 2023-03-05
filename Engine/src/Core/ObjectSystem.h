@@ -1,27 +1,28 @@
 #pragma once
+#include <mutex>
 
 constexpr unsigned int MAX_COMPONENTS = 100;
 constexpr unsigned int MAX_OBJECTS = 20;
 using ObjectID = unsigned int;
 
-class Object;
+class ENGINE_API Object;
 
 
 // Interface implementation so we can store different componenet arrays in the component manager
 
-class IComponentArray
+class ENGINE_API IComponentArray
 {
 public:
 	virtual void Update() = 0;
 };
 
 template <typename T>
-class ComponentArray : public IComponentArray
+class ENGINE_API ComponentArray : public IComponentArray
 {
 public:
-
 	void Update() override // Gets called every frame
 	{
+		std::lock_guard<std::mutex> lock(mMutex);
 		for (unsigned int i = 0; i < mSize; ++i)
 		{
 			if (mAttached[i])
@@ -33,6 +34,7 @@ public:
 
 	void InsertData(ObjectID id, Object* object) // Adds an object to the component array
 	{
+		std::lock_guard<std::mutex> lock(mMutex);
 		mIndexToObject[mSize] = id;
 		mObjectToIndex[id] = mSize;
 		mComponentArray[mSize] = T();
@@ -40,12 +42,12 @@ public:
 		mComponentArray[mSize].Start();
 		mAttached[mSize] = true;
 
-		mSize++;
+		++mSize;
 	}
 
 	void RemoveData(ObjectID id)
 	{
-
+		std::lock_guard<std::mutex> lock(mMutex);
 		// Copy element at end into deleted element's place to maintain density
 		unsigned int indexOfRemovedObject = mObjectToIndex[id];
 		unsigned int indexOfLastElement = mSize - 1;
@@ -63,40 +65,32 @@ public:
 		mIndexToObject.erase(indexOfLastElement);
 
 		--mSize;
-
 	}
 
 	T& GetData(ObjectID id) // Retrieve the object's component
 	{
-		return mComponentArray[mObjectToIndex[id]];
+		std::lock_guard<std::mutex> lock(mMutex);
+		return mComponentArray[mObjectToIndex.at(id)];
 	}
 private:
 	std::array<T, MAX_OBJECTS> mComponentArray; // Stores all the same type components eg. Transform
-	std::map<ObjectID, unsigned int> mObjectToIndex;
+	std::unordered_map<ObjectID, unsigned int> mObjectToIndex;
 	std::map<unsigned int, ObjectID> mIndexToObject;
 	std::bitset<MAX_OBJECTS> mAttached;
 	unsigned int mSize; // Used for determining mapping
+	std::mutex mMutex;
 };
 
-class ComponentManager // Holds all component arrays
+class ENGINE_API ComponentManager // Holds all component arrays
 {
 public:
-	static ComponentManager& GetInstance() // Singleton implementation, returns the instance
-	{
-		static ComponentManager instance;
-		return instance;
-	}
-	static void Update() // Gets called every frame
-	{
-		// Call update on all component arrays
-		for (auto componentA : ComponentManager::GetInstance().mComponentArrays)
-		{
-			componentA.second.get()->Update();
-		}
-	}
+	static ComponentManager& GetInstance();
+	static void Update(); // Gets called every frame
+
 	template <typename T>
 	void RegisterComponent() // Call this before adding a component for the first tie
 	{
+		std::lock_guard<std::mutex>lock(mutex);
 		const char* typeName = typeid(T).name();
 		mComponentArrays.insert({ typeName, std::make_shared<ComponentArray<T>>() });
 	}
@@ -115,61 +109,59 @@ public:
 	{
 		return GetComponentArray<T>()->GetData(id);
 	}
+	std::unordered_map<std::string, std::shared_ptr<IComponentArray>> mComponentArrays;
 
 private:
-	std::map<const char*, std::shared_ptr<IComponentArray>> mComponentArrays;
+	static std::mutex mutex;
+	static ComponentManager* instance;
 
 	template <typename T>
 	std::shared_ptr<ComponentArray<T>> GetComponentArray() // Gets the component array based of the name
 	{
-		const char* typeName = typeid(T).name();
-		return std::static_pointer_cast<ComponentArray<T>>(mComponentArrays[typeName]);
+		std::string typeName = typeid(T).name();
+		return std::static_pointer_cast<ComponentArray<T>>(mComponentArrays.at(typeName));
 	}
 };
 
-class Object // Class, which holds all of the components
-{
+
+// OIdHander.h - header file
+class ENGINE_API OIdHander {
+private:	
+	static std::mutex mutex;
+	static OIdHander* instance;
+	// Private constructor to prevent instantiation
+	OIdHander() {}
+
 public:
-	Object()
-	{
-		if (mAvailabeIds.empty())
-		{
-			std::cout << "Forgot to init queue" << std::endl;
-		}
-		mId = mAvailabeIds.front();
-		mAvailabeIds.pop();
-	};
-	static void InitQueue() // Call this function before creating any objects
-	{
-		// Initializes the queue with the ids
-		for (int i = 0; i < MAX_OBJECTS; i++)
-		{
-			mAvailabeIds.push(i);
-		}
-	}
+	// Public method to get the OIdHander instance
+	static OIdHander* GetInstance();
+	static std::queue<unsigned int> mAvailableIds;
+
+	std::queue<unsigned int>& GetIds();
+};
+
+
+class ENGINE_API Object {
+public:
+	Object();
 	template <typename T>
-	void AddComponent()
-	{
-		return ComponentManager::GetInstance().AddComponent<T>(this->mId, this);
+	void AddComponent() {
+		ComponentManager::GetInstance().AddComponent<T>(this->mId, this);
 	}
+
 	template <typename T>
-	T& GetComponent()
-	{
+	T& GetComponent() {
 		return ComponentManager::GetInstance().GetComponent<T>(this->mId);
 	}
+
 	template <typename T>
-	void RemoveComponent()
-	{
+	void RemoveComponent() {
 		ComponentManager::GetInstance().RemoveComponent<T>(this->mId);
 	}
-	~Object()
-	{
-		mAvailabeIds.push(mId);
-	}
+
+	~Object();
 	unsigned int Id() { return mId; }
 private:
-	static std::queue<unsigned int> mAvailabeIds;
 	ObjectID mId;
 	std::bitset<MAX_COMPONENTS> mComponentBitset;
 };
-

@@ -5,7 +5,7 @@
 
 namespace Engine3D
 {
-	struct MeshRenderer : public IComponent
+	struct ENGINE_API MeshRenderer : public IComponent
 	{
 	public:
 		void Start();

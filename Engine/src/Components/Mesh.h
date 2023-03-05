@@ -3,7 +3,7 @@
 
 namespace Engine3D
 {
-	struct Mesh : public IComponent
+	struct ENGINE_API Mesh : public IComponent
 	{
 	public:
 		void Start();
@@ -12,9 +12,11 @@ namespace Engine3D
 		{
 
 		}
+		void LoadModel(const char* modelPath);
 		std::unique_ptr<VBO> vbo;
 		std::unique_ptr<EBO> ebo;
 		std::vector<glm::vec3> vertices;
+		std::vector<unsigned int> indices;
 		std::vector<float> texCoords;
 		std::vector<float> normals;
 	};

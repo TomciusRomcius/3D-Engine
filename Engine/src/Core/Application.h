@@ -4,7 +4,7 @@
 
 #include "Event.h"
 #include "DebugLayer.h"
-#include "../pch.h"
+#include "enpch.h"
 
 #include "VBO.h"
 #include "Shader.h"
@@ -20,13 +20,18 @@
 
 namespace Engine3D
 {
-	class ApplicationLayer
+	class ENGINE_API Application
 	{
 	public:
-		static void Start();
-		static void MainLoop();
-	private:
-		static GLFWwindow* WINDOW;
-		static void RenderUI();
+		void Initialize();
+		void MainLoop();
+		virtual void  Start() {}
+		virtual void Update() {}
+
+	protected:
+		GLFWwindow* WINDOW;
+		void RenderUI();
 	};
+
+
 }

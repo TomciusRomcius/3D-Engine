@@ -6,7 +6,7 @@
 
 namespace Engine3D
 {
-	struct IComponent
+	struct ENGINE_API IComponent
 	{
 		Object* object;
 	};
