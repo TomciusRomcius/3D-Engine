@@ -18,6 +18,6 @@ namespace Engine3D
 		std::vector<glm::vec3> vertices;
 		std::vector<unsigned int> indices;
 		std::vector<glm::vec2> texCoords;
-		std::vector<float> normals;
+		std::vector<glm::vec3> normals;
 	};
 }

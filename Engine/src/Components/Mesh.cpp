@@ -8,7 +8,12 @@ namespace Engine3D
 	void Mesh::Start()
 	{
 		// Default triangle
-
+		vertices =
+		{
+			{ -1.f, -1.f, .0f},
+			{.0f, 1.f, .0f },
+			{1.f, -1.f, .0f}
+		};
 		std::vector<unsigned int> indices = { 0, 1, 2 };
 		// Create a vbo and ebo
 		vbo = std::make_unique<VBO>(vertices);
@@ -35,10 +40,11 @@ namespace Engine3D
 		}
 		std::string line;
 		std::vector<glm::vec3> r_vertices;
+		std::vector<glm::vec2> r_texCoords;
+		std::vector<glm::vec3> r_normals;
 		std::vector<unsigned int> v_indices;
 		std::vector<unsigned int> uv_indices;
 		std::vector<unsigned int> n_indices;
-		std::vector<glm::vec2> r_texCoords;
 		while (std::getline(file, line))
 		{
 			if (line[0] == 'v' && line[1] == ' ')
@@ -53,6 +59,14 @@ namespace Engine3D
 				std::sscanf(line.c_str(), "vt %f %f", &u, &v);
 				r_texCoords.push_back({ u, v });
 			}
+
+			if (line[0] == 'v' && line[1] == 'n')
+			{
+				float x, y, z;
+				std::sscanf(line.c_str(), "vn %f %f %f", &x, &y, &z);
+				r_normals.push_back({ x, y, z });
+			}
+
 			if (line[0] == 'f')
 			{
 				unsigned int vertexIndex[4], uvIndex[4], normalIndex[4];
@@ -88,10 +102,16 @@ namespace Engine3D
 			texCoords.push_back(r_texCoords[uvIndex]);
 		}
 
+		for (auto& nIndex : n_indices)
+		{
+			std::cout << r_vertices[nIndex].x << " " << r_vertices[nIndex].y << " " << r_vertices[nIndex].z << '\n';
+			normals.push_back(r_normals[nIndex]);
+		}
+
 		vbo.reset();
 		ebo.reset();
 
-		vbo = std::make_unique<VBO>(vertices, texCoords);
+		vbo = std::make_unique<VBO>(vertices, texCoords, normals);
 		EN_INFO("Succesfully loaded model: " + std::string(modelPath))
 	}
 }
