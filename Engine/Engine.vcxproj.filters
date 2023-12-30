@@ -7,6 +7,9 @@
     <Filter Include="Core">
       <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\ECS">
+      <UniqueIdentifier>{780F99C2-64DC-F3CD-8DF5-E1757921295C}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\IComponent.h">
@@ -30,6 +33,15 @@
     <ClInclude Include="src\Core\EBO.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\ECS\ComponentArray.h">
+      <Filter>Core\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\ECS\ComponentManager.h">
+      <Filter>Core\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\ECS\ObjectSystem.h">
+      <Filter>Core\ECS</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\Event.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -37,9 +49,6 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Log.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\ECS\ObjectSystem.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Program.h">
@@ -62,8 +71,6 @@
     </ClInclude>
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\enpch.h" />
-    <ClInclude Include="src\Core\ECS\ComponentArray.h" />
-    <ClInclude Include="src\Core\ECS\ComponentManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Components\Mesh.cpp">
@@ -84,6 +91,12 @@
     <ClCompile Include="src\Core\EBO.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\ECS\ComponentManager.cpp">
+      <Filter>Core\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\ECS\ObjectSystem.cpp">
+      <Filter>Core\ECS</Filter>
+    </ClCompile>
     <ClCompile Include="src\Core\Event.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -91,9 +104,6 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Log.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Core\ECS\ObjectSystem.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Program.cpp">
@@ -115,6 +125,5 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="src\enpch.cpp" />
-    <ClCompile Include="src\Core\ECS\ComponentManager.cpp" />
   </ItemGroup>
 </Project>

@@ -44,7 +44,7 @@ workspace "3D-Engine"
         }
         postbuildcommands
         {
-            "{copy} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox"
+            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
         }
         filter "configurations:Debug"
             defines {"DEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}

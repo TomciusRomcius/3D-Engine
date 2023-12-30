@@ -2,10 +2,8 @@
 #include "enpch.h"
 #include "Engine.h"
 
-
 class Sandbox : public Engine3D::Application
 {
-	
 	void Start() override
 	{
 		using namespace Engine3D;
