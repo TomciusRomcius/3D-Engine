@@ -97,7 +97,6 @@ namespace Engine3D
 			frames++;
 			if (sN - sT >= 1.0)
 			{
-				std::cout << frames / Time::ElapsedTime << std::endl;
 				sT = sN;
 				frames = 0;
 
