@@ -17,13 +17,14 @@ namespace Engine3D
 		glGetShaderiv(id, GL_COMPILE_STATUS, &success);
 		if (success == GL_FALSE)
 		{
+			EN_ERROR("Failed to compile shader: " + std::string(src))
 			int length;
 			glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-			auto message = malloc(length * sizeof(char));
-			glGetShaderInfoLog(id, length, &length, (GLchar*)message);
-			std::cout << message << std::endl;
+			std::vector<char> message(length);
+			glGetShaderInfoLog(id, length, &length, &message[0]);
+			for (char c : message)
+				std::cout << c;
 			glDeleteShader(id);
-			delete(message);
 		}
 	}
 
