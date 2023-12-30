@@ -17,12 +17,12 @@ namespace Engine3D
 		unsigned int verticesSize = vertices.size() * 3 * sizeof(float);
 		unsigned int texCoordsSize = texCoords.size() * 2 * sizeof(float);
 
-		glBufferData(GL_ARRAY_BUFFER, verticesSize + texCoordsSize, 0, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, verticesSize + texCoordsSize, vertices.data(), GL_STATIC_DRAW);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, verticesSize, vertices.data());
-		glBufferSubData(GL_ARRAY_BUFFER, verticesSize, texCoordsSize, texCoords.data());
+		glBufferSubData(GL_ARRAY_BUFFER, verticesSize, texCoordsSize, vertices.data());
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)verticesSize);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)verticesSize);
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 
