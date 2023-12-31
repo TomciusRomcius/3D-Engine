@@ -29,7 +29,6 @@ private:
 template<typename T>
 inline void ComponentManager::RegisterComponent() // Call this before adding a component for the first tie
 {
-	std::lock_guard<std::mutex>lock(mutex);
 	const char* typeName = typeid(T).name();
 	mComponentArrays.insert({ typeName, std::make_shared<ComponentArray<T>>() });
 }
@@ -37,6 +36,10 @@ inline void ComponentManager::RegisterComponent() // Call this before adding a c
 template<typename T>
 inline void ComponentManager::AddComponent(ObjectID id, Object* object) // Adds a component to a given object
 {
+	if (mComponentArrays.find(typeid(T).name()) == mComponentArrays.end())
+	{
+		RegisterComponent<T>();
+	}
 	GetComponentArray<T>()->InsertData(id, object);
 }
 
