@@ -11,8 +11,12 @@ namespace Engine3D
 		glLinkProgram(id);
 
 		int status;
-		glGetProgramiv(id, GL_LINK_STATUS, &status);
-		error = (status != 0);
+		glGetProgramiv(id, GL_LINK_STATUS, &status); // Success - 1, Failure - 0
+		if (status == 0) {
+			char buffer[512];
+			glGetProgramInfoLog(id, 512, NULL, buffer);
+			std::cout << "Failed to link program: " << buffer << std::endl;
+		}
 	}
 
 	void Program::UseProgram() const
@@ -23,9 +27,5 @@ namespace Engine3D
 	unsigned int Program::Id() const
 	{
 		return id;
-	}
-	bool Program::Error() const
-	{
-		return error;
 	}
 }
