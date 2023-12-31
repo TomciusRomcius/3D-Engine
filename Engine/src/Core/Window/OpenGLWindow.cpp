@@ -65,6 +65,7 @@ namespace Engine3D
 		ComponentManager::GetInstance().RegisterComponent<Transform>();
 		ComponentManager::GetInstance().RegisterComponent<Mesh>();
 		ComponentManager::GetInstance().RegisterComponent<MeshRenderer>();
+
 		MainLoop(start, update);
 	}
 
@@ -88,6 +89,7 @@ namespace Engine3D
 		auto program = new Program(new Shader(GL_VERTEX_SHADER, "framebuffer.vert"), new Shader(GL_FRAGMENT_SHADER, "framebuffer.frag"));
 		program->UseProgram();
 		glUniform1i(glGetUniformLocation(program->Id(), "screenTexture"), 0);
+		SceneManager::Initialize();
 		start();
 		while (!glfwWindowShouldClose(WINDOW))
 		{
