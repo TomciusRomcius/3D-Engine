@@ -6,8 +6,8 @@ namespace Engine3D
 	struct ENGINE_API Mesh : public IComponent
 	{
 	public:
-		void Start();
-		void Update();
+		void Start() override;
+		void Update() override;
 		void SetVertices(const std::vector<float>& _vertices)
 		{
 

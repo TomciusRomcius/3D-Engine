@@ -8,8 +8,8 @@ namespace Engine3D
 	{
 	public:
 
-		void Start();
-		void Update();
+		void Start() override;
+		void Update() override;
 		glm::mat4 Mvp() const;
 		glm::vec3 position;
 		glm::vec3 scale;

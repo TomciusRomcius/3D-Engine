@@ -9,9 +9,8 @@ namespace Engine3D
 	struct ENGINE_API MeshRenderer : public IComponent
 	{
 	public:
-		void Start();
-
-		void Update(); // Draw the object
+		void Start() override;
+		void Update() override; // Draw the object
 
 		void SetShaderUniforms();
 		std::unique_ptr<Shader> vertexShader;
