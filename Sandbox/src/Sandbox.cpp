@@ -4,27 +4,27 @@
 
 class Sandbox : public Engine3D::Application
 {
-	void Start() override
+public:
+	Sandbox(Engine3D::RenderAPI api)
 	{
+		Initialize(api);
+	}
+	void Start() override {
 		using namespace Engine3D;
-		auto o = new Object();
-		o->AddComponent<Transform>();
-		o->AddComponent<Mesh>();
-		o->AddComponent<MeshRenderer>();
-		o->GetComponent<MeshRenderer>().color = { .5f, 1, 0 };
-		o->GetComponent<Mesh>().LoadModel("../Models/Cube.obj");
-		o->GetComponent<MeshRenderer>().texture = std::make_unique<Texture>("../Textures/brick.jpg");
-
+		auto obj = new Object();
+		obj->AddComponent<Transform>();
+		obj->AddComponent<Mesh>();
+		obj->AddComponent<MeshRenderer>();
+		obj->GetComponent<Mesh>().LoadModel("../Models/Cube.obj");
+		obj->GetComponent<MeshRenderer>().texture = std::make_unique<Texture>("../Textures/brick.jpg");
 	}
-	void Update() override
-	{
 
+	void Update() override {
 	}
-	
 };
 
 int main()
 {
-	Sandbox* app = new Sandbox();
-	app->Initialize();
+	auto app = Sandbox(Engine3D::RenderAPI::OpenGL);
+	app.Run();
 }

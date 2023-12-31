@@ -1,39 +1,43 @@
 #pragma once
-
-#include <chrono>
-
-#include "Event.h"
-#include "DebugLayer.h"
-#include "enpch.h"
-
-#include "VBO.h"
-#include "Shader.h"
-#include "Program.h"
-#include "FrameBuffer.h"
-
-#include "Time.h"
-
-#include "ECS/ObjectSystem.h"
-#include "../Components/IComponent.h"
-#include "../Components/Transform.h"
-#include "../Components/Mesh.h"
-#include "../Components/MeshRenderer.h"
-
-#include "Log.h"
+#include "Window/OpenGLWindow.h"
 
 namespace Engine3D
 {
-	class ENGINE_API Application
+	enum class RenderAPI
 	{
-	public:
-		void Initialize();
-		void MainLoop();
-		virtual void Start() {}
-		virtual void Update() {}
-	protected:
-		GLFWwindow* WINDOW;
-		void RenderUI();
+		None = 0,
+		OpenGL = 1,
+		DirectX = 2
 	};
 
+	class Application
+	{
+	public:
+		void Initialize(RenderAPI api)
+		{
+			switch (api)
+			{
+			case RenderAPI::None:
+				return;
+			case RenderAPI::OpenGL:
+				window = std::make_unique<OpenGLWindow>();
+				break;
+			case RenderAPI::DirectX:
+				return;
+			}
+		}
 
+		void Run() {	
+			window->Initialize(std::bind(
+				&Application::Start, this),
+				std::bind(&Application::Update, this)
+			);
+		};
+
+		virtual void Start() = 0;
+		virtual void Update() = 0;
+
+	private:
+		std::unique_ptr<IWindow> window;
+	};
 }
