@@ -7,7 +7,6 @@
 Texture::Texture(const char* path)
 {
 	glGenTextures(1, &id);
-	EN_TRACE("Creating a texture id = " + std::to_string(id));
 
 	glBindTexture(GL_TEXTURE_2D, id);
 
@@ -32,7 +31,7 @@ Texture::Texture(const char* path)
 		format = GL_RGBA;
 		break;
 	default:
-		EN_ERROR("Failed to load image:" + std::string(path))
+		EN_ERROR("Failed to load image:" + std::string(path) + " id: " + std::to_string(id));
 			return;
 	}
 
@@ -45,18 +44,24 @@ Texture::Texture(const char* path)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	stbi_image_free(data);
-	EN_INFO("Succesfully loaded texture: " + std::string(path))
+	EN_INFO("Succesfully loaded texture: " + std::string(path));
+}
 
-
+Texture::Texture()
+{
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1280, 720, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture
+	EN_INFO("Succesfully created a framebuffer texture id = " + std::to_string(id));
 }
 
 Texture::~Texture()
 {
-	EN_TRACE("Deleting texture: " + std::to_string(id));
 	glDeleteTextures(1, &id);
-}
-
-void Texture::Bind()
-{
-	glBindTexture(GL_TEXTURE_2D, id);
+	EN_INFO("Deleted texture: " + std::to_string(id));
 }

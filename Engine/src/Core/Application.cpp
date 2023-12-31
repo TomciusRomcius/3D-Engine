@@ -2,11 +2,25 @@
 #include "Application.h"
 #include "../Components/Transform.h"
 
+std::vector<glm::vec3> vertices = {
+	glm::vec3(-1.0f, 1.0f, 0.0f),  // Top Left
+	glm::vec3(1.0f, 1.0f, 0.0f),   // Top Right
+	glm::vec3(1.0f, -1.0f, 0.0f),  // Bottom Right
+	glm::vec3(-1.0f, -1.0f, 0.0f)  // Bottom Left
+};
 
-void bra()
-{
+std::vector<unsigned int> indices = {
+	0, 1, 2,    // First Triangle
+	2, 3, 0     // Second Triangle
+};
 
-}
+std::vector<glm::vec2> texCoords = {
+	glm::vec2(0.0f, 1.0f), // Top Left
+	glm::vec2(1.0f, 1.0f), // Top Right
+	glm::vec2(1.0f, 0.0f), // Bottom Right
+	glm::vec2(0.0f, 0.0f)  // Bottom Left
+};
+
 namespace Engine3D
 {
 	void Application::Initialize()
@@ -42,11 +56,6 @@ namespace Engine3D
 			return;
 		}
 		
-		glEnable(GL_DEPTH_TEST);
-
-		// Initialize ImGui
-
-		
 		// Initialize event system and a debugger
 		Event::Initialize(WINDOW);
 		DebugLayer::Initialize(WINDOW);
@@ -77,53 +86,54 @@ namespace Engine3D
 		int frames = 0;
 		double sT = glfwGetTime();
 
+		auto framebuffer = Framebuffer();
+		auto quadVBO = VBO(vertices, texCoords);
+		auto quadEBO = EBO(indices);
+		auto program = new Program(new Shader(GL_VERTEX_SHADER, "framebuffer.vert"), new Shader(GL_FRAGMENT_SHADER, "framebuffer.frag"));
+		program->UseProgram();
+		glUniform1i(glGetUniformLocation(program->Id(), "screenTexture"), 0);
 		while (!glfwWindowShouldClose(WINDOW))
 		{
-			// My logic
-
-			ComponentManager::Update();
-			SceneCamera::Move();
-
-			Application::Update();
-
-			// Calculate elapsed time
-
+			// Time calculations
 			e = std::chrono::high_resolution_clock::now();
 			Time::ElapsedTime = (float)(e - s).count() / 1000000000.f;
 
-			// Calculate delta time
-			
 			double sN = glfwGetTime();
 			frames++;
 			if (sN - sT >= 1.0)
 			{
 				sT = sN;
 				frames = 0;
-
 			}
 
 			t2 = t1;
 			t1 = std::chrono::high_resolution_clock::now();
 			Time::DeltaTime = (float)(t1 - t2).count() / 1000000000.f;
 
-			// ImGui
-
-			
-
-
-			RenderUI();
-
-
-			
-			// GLFW
-
-			glfwSwapBuffers(WINDOW);
+			// Render to framebuffer
+			framebuffer.Bind();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glClearColor(0, 0, 0.1, 1);
+			glEnable(GL_DEPTH_TEST);
+			ComponentManager::Update();
+			SceneCamera::Move();
+
+			Application::Update();
+
+			// RenderUI();
+
+			// Render framebuffer to screen
+			framebuffer.Unbind();
+			glClear(GL_COLOR_BUFFER_BIT);
+			glDisable(GL_DEPTH_TEST);
+			program->UseProgram();
+			quadVBO.Bind();
+			quadEBO.Bind();
+			glBindTexture(GL_TEXTURE_2D, framebuffer.TextureId());
+			glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
+			
+			glfwSwapBuffers(WINDOW);
 			glfwPollEvents();
-
-
-
-
 		}
 	}
 	void Application::RenderUI()

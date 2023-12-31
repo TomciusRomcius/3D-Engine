@@ -9,6 +9,7 @@
 #include "VBO.h"
 #include "Shader.h"
 #include "Program.h"
+#include "FrameBuffer.h"
 
 #include "Time.h"
 
@@ -27,9 +28,8 @@ namespace Engine3D
 	public:
 		void Initialize();
 		void MainLoop();
-		virtual void  Start() {}
+		virtual void Start() {}
 		virtual void Update() {}
-
 	protected:
 		GLFWwindow* WINDOW;
 		void RenderUI();
