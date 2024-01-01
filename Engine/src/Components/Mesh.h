@@ -1,5 +1,6 @@
 #pragma once
 #include "IComponent.h"
+#include "../Core/VertexArray.h"
 
 namespace Engine3D
 {
@@ -14,6 +15,7 @@ namespace Engine3D
 		}
 		void LoadModel(const char* modelPath);
 		std::unique_ptr<VBO> vbo;
+		std::unique_ptr<VertexArray> vao;
 		std::unique_ptr<EBO> ebo;
 		std::vector<glm::vec3> vertices;
 		std::vector<unsigned int> indices;

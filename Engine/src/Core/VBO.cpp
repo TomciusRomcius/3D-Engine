@@ -55,53 +55,21 @@ namespace Engine3D
 
 	VBO::VBO(const std::vector<BufferElement>& buffers)
 	{
-		glGenVertexArrays(1, &VAO);
-		glBindVertexArray(VAO);
-		glGenBuffers(1, &id);
-
-		EN_TRACE("Creating vertex buffer object id = " + std::to_string(id));
 		unsigned int size = 0;
 		for (auto& buffer : buffers)
 		{
 			size += buffer.GetSize();
 		};
 
+		glGenBuffers(1, &id);
 		glBindBuffer(GL_ARRAY_BUFFER, id);
 		glBufferData(GL_ARRAY_BUFFER, size, 0, GL_STATIC_DRAW);
 
+		EN_TRACE("Creating vertex buffer object id = " + std::to_string(id));
 		auto offset = 0;
 		for (int i = 0; i < buffers.size(); i++)
 		{
 			glBufferSubData(GL_ARRAY_BUFFER, offset, buffers[i].GetSize(), buffers[i].GetData());
-			offset += buffers[i].GetSize();
-		}
-		offset = 0;
-		for (int i = 0; i < buffers.size(); i++)
-		{
-			auto bufferType = buffers[i].GetType();
-			int openGLType = GL_FLOAT;
-			switch (bufferType)
-			{
-				case BufferDataType::Float:
-					openGLType = GL_FLOAT;
-					break;
-				case BufferDataType::Double:
-					openGLType = GL_DOUBLE;
-					break;
-				case BufferDataType::Int:
-					openGLType = GL_INT;
-					break;
-				case BufferDataType::UInt:
-					openGLType = GL_UNSIGNED_INT;
-					break;
-			}
-			glVertexAttribPointer(i,
-								buffers[i].GetCount(),
-								openGLType,
-								GL_FALSE,
-								buffers[i].GetStride(),
-								(void*)offset);
-			glEnableVertexAttribArray(i);
 			offset += buffers[i].GetSize();
 		}
 	}
@@ -124,7 +92,6 @@ namespace Engine3D
 	void VBO::Bind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, id);
-		glBindVertexArray(VAO);
 	}
 	VBO::~VBO()
 	{

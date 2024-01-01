@@ -111,7 +111,12 @@ namespace Engine3D
 		vbo.reset();
 		ebo.reset();
 
-		vbo = std::make_unique<VBO>(vertices, texCoords, normals);
+		auto vertBuffer = BufferElement(vertices.data(), BufferDataType::Float, vertices.size(), 3, false);
+		auto texBuffer = BufferElement(texCoords.data(), BufferDataType::Float, texCoords.size(), 2, false);
+		auto normBuffer = BufferElement(normals.data(), BufferDataType::Float, normals.size(), 3, false);
+		std::vector<BufferElement> elements = { vertBuffer, texBuffer, normBuffer };
+		vbo = std::make_unique<VBO>(elements);
+		vao = std::make_unique<VertexArray>(elements);
 		EN_INFO("Succesfully loaded model: " + std::string(modelPath))
 	}
 }

@@ -89,6 +89,7 @@ namespace Engine3D
 		auto buffers = std::vector<BufferElement>{ vertBuffer, texBuffer };
 
 		auto quadVBO = VBO(buffers);
+		auto quadVAO = VertexArray(buffers);
 		auto quadEBO = EBO(indices);
 		auto program = new Program(new Shader(GL_VERTEX_SHADER, "framebuffer.vert"), new Shader(GL_FRAGMENT_SHADER, "framebuffer.frag"));
 		program->UseProgram();
@@ -129,6 +130,7 @@ namespace Engine3D
 			glClear(GL_COLOR_BUFFER_BIT);
 			glDisable(GL_DEPTH_TEST);
 			program->UseProgram();
+			quadVAO.Bind();
 			quadVBO.Bind();
 			quadEBO.Bind();
 			glBindTexture(GL_TEXTURE_2D, framebuffer.TextureId());

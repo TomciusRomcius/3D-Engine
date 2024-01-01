@@ -17,6 +17,7 @@ namespace Engine3D
 		program->UseProgram();
 		SetShaderUniforms();
 		this->object->GetComponent<Mesh>().vbo->Bind();
+		this->object->GetComponent<Mesh>().vao->Bind();
 		if (this->object->GetComponent<Mesh>().ebo != nullptr)
 		{
 			this->object->GetComponent<Mesh>().ebo->Bind();

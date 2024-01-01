@@ -3,7 +3,7 @@
 
 namespace Engine3D
 {
-	enum class BufferDataType
+	enum BufferDataType
 	{
 		Float,
 		Double,

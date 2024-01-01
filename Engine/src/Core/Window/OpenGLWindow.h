@@ -7,6 +7,7 @@
 #include "enpch.h"
 
 #include "../VBO.h"
+#include "../VertexArray.h"
 #include "../Shader.h"
 #include "../Program.h"
 #include "../FrameBuffer.h"
