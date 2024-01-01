@@ -84,7 +84,11 @@ namespace Engine3D
 		double sT = glfwGetTime();
 
 		auto framebuffer = Framebuffer();
-		auto quadVBO = VBO(vertices, texCoords);
+		auto vertBuffer = BufferElement(vertices.data(), BufferDataType::Float, vertices.size(), 3, false);
+		auto texBuffer = BufferElement(texCoords.data(), BufferDataType::Float, texCoords.size(), 2, false);
+		auto buffers = std::vector<BufferElement>{ vertBuffer, texBuffer };
+
+		auto quadVBO = VBO(buffers);
 		auto quadEBO = EBO(indices);
 		auto program = new Program(new Shader(GL_VERTEX_SHADER, "framebuffer.vert"), new Shader(GL_FRAGMENT_SHADER, "framebuffer.frag"));
 		program->UseProgram();
