@@ -20,7 +20,7 @@ namespace Engine3D
 		float dy = Event::mousePos.y - lastMousePos.y;
 
 		yaw += dx * sensitivity * Time::DeltaTime;
-		pitch -= dy * sensitivity * Time::DeltaTime;
+		pitch += dy * sensitivity * Time::DeltaTime;
 
 		if (pitch > 90.f) pitch = 90.f; // Clamping
 		if (pitch < -90.f) pitch = -89.f;
