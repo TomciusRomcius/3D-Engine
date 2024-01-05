@@ -19,6 +19,10 @@
 #include "../../Components/Transform.h"
 #include "../../Components/Mesh.h"
 #include "../../Components/MeshRenderer.h"
+#include "imgui.h"
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
+
 
 #include "../Log.h"
 #include "IWindow.h"
@@ -33,7 +37,7 @@ namespace Engine3D
 		void MainLoop(std::function<void()> start, std::function<void()> update);
 	protected:
 		GLFWwindow* WINDOW;
-		void RenderUI();
+		void RenderUI(unsigned int framebufferTexture);
 	};
 
 

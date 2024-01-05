@@ -7,6 +7,8 @@ workspace "3D-Engine"
         location "Engine"
         language "c++"
 
+        links {"imgui"}
+
         outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
         targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -27,6 +29,7 @@ workspace "3D-Engine"
             "vendor/glm-master",
             "vendor/spdlog/include",
             "vendor/stb/include",
+            "imgui",
             "%{prj.name}/src/"
         }
 
@@ -79,6 +82,7 @@ workspace "3D-Engine"
             "vendor/glm-master",
             "vendor/spdlog/include",
             "vendor/stb/include",
+            "vendor/imgui",
             "Engine/src"
         }
 
@@ -104,7 +108,47 @@ workspace "3D-Engine"
         filter "configurations:Dist"
             defines {"NDEBUG", "Dist", "EN_BUILD_DLL", "GLEW_STATIC"}
             optimize "On"
+    project "imgui"
+        kind "StaticLib"
+        location "imgui"
+        language "c++"
 
+        outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
+        targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+        objdir ("bin-int/".. outputdir .."/%{prj.name}")
+        
+        files
+        {
+            "%{prj.name}/**.cpp",
+            "%{prj.name}/**.h"
+        }
+
+        includedirs
+        {
+            "vendor/glfw/include",
+            "vendor/glew/include",
+            "vendor/glm-master",
+            "vendor/spdlog/include",
+            "vendor/stb/include",
+            "vendor/imgui",
+            "Engine/src"
+        }
+        libdirs
+        {
+            "vendor/glfw/lib",
+            "vendor/glew/lib/Release/x64"
+        }
+
+        filter "configurations:Debug"
+            defines {"DEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}
+            symbols "On"
+        filter "configurations:Release"
+            defines {"NDEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}
+            optimize "On"
+        filter "configurations:Dist"
+            defines {"NDEBUG", "Dist", "EN_BUILD_DLL", "GLEW_STATIC"}
+            optimize "On"
 
 
 

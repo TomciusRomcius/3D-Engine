@@ -14,11 +14,12 @@ std::vector<unsigned int> indices = {
 };
 
 std::vector<glm::vec2> texCoords = {
-	glm::vec2(0.0f, 1.0f), // Top Left
-	glm::vec2(1.0f, 1.0f), // Top Right
+	glm::vec2(0.0f, 0.0f), // Bottom Left
 	glm::vec2(1.0f, 0.0f), // Bottom Right
-	glm::vec2(0.0f, 0.0f)  // Bottom Left
+	glm::vec2(1.0f, 1.0f), // Top Right
+	glm::vec2(0.0f, 1.0f)  // Top Left
 };
+
 
 namespace Engine3D
 {
@@ -66,6 +67,15 @@ namespace Engine3D
 		ComponentManager::GetInstance().RegisterComponent<Mesh>();
 		ComponentManager::GetInstance().RegisterComponent<MeshRenderer>();
 
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+		ImGui::StyleColorsDark();
+		ImGui_ImplGlfw_InitForOpenGL(WINDOW, true);
+		ImGui_ImplOpenGL3_Init("#version 330");
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+
 		MainLoop(start, update);
 	}
 
@@ -96,6 +106,7 @@ namespace Engine3D
 		glUniform1i(glGetUniformLocation(program->Id(), "screenTexture"), 0);
 		SceneManager::Initialize();
 		start();
+
 		while (!glfwWindowShouldClose(WINDOW))
 		{
 			update();
@@ -123,33 +134,34 @@ namespace Engine3D
 			ComponentManager::Update();
 			SceneCamera::Move();
 
-			// RenderUI();
-
-			// Render framebuffer to screen
 			framebuffer.Unbind();
-			glClear(GL_COLOR_BUFFER_BIT);
-			glDisable(GL_DEPTH_TEST);
-			program->UseProgram();
-			quadVAO.Bind();
-			quadVBO.Bind();
-			quadEBO.Bind();
-			glBindTexture(GL_TEXTURE_2D, framebuffer.TextureId());
-			glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
-			
+			RenderUI(framebuffer.TextureId());
 			glfwSwapBuffers(WINDOW);
 			glfwPollEvents();
 		}
 	}
-	void OpenGLWindow::RenderUI()
+	void OpenGLWindow::RenderUI(unsigned int framebufferTex)
 	{
-		/*
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		ImGui::DockSpaceOverViewport();
 		ImGui::Begin("Viewport");
-
+		ImGui::Image((void*)framebufferTex, ImVec2(1280, 720));
 		ImGui::End();
-		ImGui::Begin("Properties");
-		ImGui::End();
+		/*
 		ImGui::Begin("Hierarchy");
+		ImGui::Text("Hierarchy!");
+		ImGui::End();
+		ImGui::Begin("Inspector");
+		ImGui::Text("Inspector!");
+		ImGui::End();
+		ImGui::Begin("Asset manager");
+		ImGui::Text("Asset manager!");
 		ImGui::End();
 		*/
+		ImGui::Render();
+ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		
 	}
 }
