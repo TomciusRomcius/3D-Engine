@@ -61,7 +61,7 @@ namespace Engine3D
 	}
 	float SceneCamera::yaw{ 0 };
 	float SceneCamera::pitch{ 0 };
-	glm::vec3 SceneCamera::position{ 0, 0, -3 };
+	glm::vec3 SceneCamera::position{ 0, 0, 0 };
 	glm::vec2 SceneCamera::lastMousePos{ 640, 360 };
 	glm::vec3 SceneCamera::front{ 0, 0, -1 };
 	glm::vec3 SceneCamera::direction{ 0, 0, -1 };

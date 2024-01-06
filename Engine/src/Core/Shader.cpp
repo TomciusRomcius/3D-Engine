@@ -12,6 +12,7 @@ namespace Engine3D
 	Shader::Shader(unsigned int shaderType, const char* src)
 	{
 		id = glCreateShader(shaderType);
+		EN_TRACE("Creating shader: " + std::string(src) + " with id: " + std::to_string(id))
 		std::string source = ReadSource(DSHADER_PATH(src));
 		const char* csource = source.c_str();
 		glShaderSource(id, 1, &csource, 0);

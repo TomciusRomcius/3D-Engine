@@ -96,7 +96,7 @@ namespace Engine3D
 
 		while (!glfwWindowShouldClose(WINDOW))
 		{
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glClearColor(0.0f, 0.05f, 0.3f, 1.0f);
 			// Time calculations
 			e = std::chrono::high_resolution_clock::now();
 			Time::ElapsedTime = (float)(e - s).count() / 1000000000.f;
@@ -112,6 +112,7 @@ namespace Engine3D
 			t1 = std::chrono::high_resolution_clock::now();
 			Time::DeltaTime = (float)(t1 - t2).count() / 1000000000.f;
 
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			m_LayerSystem->Update();
 
 			glfwSwapBuffers(WINDOW);

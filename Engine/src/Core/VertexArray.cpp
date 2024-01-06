@@ -8,7 +8,7 @@ namespace Engine3D
 	{
 		glGenVertexArrays(1, &m_Id);
 		glBindVertexArray(m_Id);
-	
+		EN_TRACE("Creating vertex array object id = " + std::to_string(m_Id));
 		int index = 0;
 		int offset = 0;
 		for (auto& buffer : buffers)
@@ -30,10 +30,12 @@ namespace Engine3D
 					EN_CORE_ERROR("Unknown buffer data type");
 					break;
 			}
+			auto p_Offset = (void*)offset;
 			glVertexAttribPointer(index, buffer.GetCount(), openGLType, GL_FALSE, buffer.GetStride(), (void*)offset);
 			glEnableVertexAttribArray(index);
 			index++;
 			offset += buffer.GetSize();
 		}
+		glBindVertexArray(0);
 	}
 }
