@@ -1,6 +1,7 @@
 #pragma once
 #include "IComponent.h"
 #include "../Core/VertexArray.h"
+#include "../Core/BufferElement.h"
 
 namespace Engine3D
 {
@@ -21,5 +22,8 @@ namespace Engine3D
 		std::vector<unsigned int> indices;
 		std::vector<glm::vec2> texCoords;
 		std::vector<glm::vec3> normals;
+		std::string GetLoadedModel() { return loadedModel; }
+	private:
+		std::string loadedModel = "";
 	};
 }
