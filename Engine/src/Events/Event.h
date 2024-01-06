@@ -12,6 +12,7 @@ namespace Engine3D
 
 	class Event
 	{
+		friend class LayerSystem;
 	public:
 		Event()
 		: m_IsHandled(false) {}
@@ -28,6 +29,7 @@ namespace Engine3D
 			: m_KeyCode(keycode), m_IsDown(isDown)
 		{}
 		inline int GetKeyCode() const { return m_KeyCode; }
+		inline bool IsDown() const { return m_IsDown; }
 	private:
 		int m_KeyCode;
 		bool m_IsDown;
@@ -40,6 +42,7 @@ namespace Engine3D
 			: m_Button(button), m_IsDown(isDown)
 		{}
 		int GetButton() const { return m_Button; }
+		bool IsDown() const { return m_IsDown; }
 	private:
 		int m_Button;
 		bool m_IsDown;
