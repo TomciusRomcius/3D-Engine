@@ -97,16 +97,18 @@ namespace Engine3D
 		{
 			// Render to framebuffer
 			m_Framebuffer->Bind();
-			m_VBO->Bind();
-			m_VAO->Bind();
-			m_EBO->Bind();
-			m_Program->UseProgram();
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+			glDisable(GL_DEPTH_TEST);
+			glClear(GL_COLOR_BUFFER_BIT);
 
 			ComponentManager::Update();
 			SceneCamera::Move();
 
 			m_Framebuffer->Unbind();
+			m_VBO->Bind();
+			m_VAO->Bind();
+			m_EBO->Bind();
+			m_Program->UseProgram();
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		}
 		void OnEvent(Event* event, EventType eventType)
 		{
