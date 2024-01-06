@@ -17,7 +17,10 @@ namespace Engine3D
 		};
 		std::vector<unsigned int> indices = { 0, 1, 2 };
 		// Create a vbo and ebo
-		vbo = std::make_unique<VBO>(vertices);
+		auto vertxBuffer = BufferElement(vertices.data(), BufferDataType::Float, vertices.size(), 3, false);
+		std::vector<BufferElement> elements = { vertxBuffer };
+		vbo = std::make_unique<VBO>(elements);
+		vao = std::make_unique<VertexArray>(elements);
 		ebo = std::make_unique<EBO>(indices);
 	}
 
@@ -39,6 +42,9 @@ namespace Engine3D
 			EN_ERROR("Failed to load model: " + std::string(modelPath))
 			return;
 		}
+
+		loadedModel = modelPath;
+
 		std::string line;
 		std::vector<glm::vec3> r_vertices;
 		std::vector<glm::vec2> r_texCoords;
@@ -93,19 +99,16 @@ namespace Engine3D
 		file.close();
 		for (auto& vIndex : v_indices)
 		{
-			std::cout << r_vertices[vIndex].x << " " << r_vertices[vIndex].y << " " << r_vertices[vIndex].z << '\n';
 			vertices.push_back(r_vertices[vIndex]);
 		}
 
 		for (auto& uvIndex : uv_indices)
 		{
-			std::cout << r_texCoords[uvIndex].x << " " << r_texCoords[uvIndex].y << '\n';
 			texCoords.push_back(r_texCoords[uvIndex]);
 		}
 
 		for (auto& nIndex : n_indices)
 		{
-			std::cout << r_vertices[nIndex].x << " " << r_vertices[nIndex].y << " " << r_vertices[nIndex].z << '\n';
 			normals.push_back(r_normals[nIndex]);
 		}
 
