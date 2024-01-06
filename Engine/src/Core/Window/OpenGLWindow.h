@@ -2,7 +2,7 @@
 
 #include <chrono>
 
-#include "../Event.h"
+#include "Events/EventSystem.h"
 #include "../DebugLayer.h"
 #include "enpch.h"
 
@@ -24,6 +24,8 @@
 #include "IWindow.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
+#include "../LayerSystem.h"
+#include "../ImGuiLayer.h"
 
 namespace Engine3D
 {
@@ -39,6 +41,7 @@ namespace Engine3D
 	protected:
 		GLFWwindow* WINDOW;
 		void RenderUI(unsigned int framebufferTexture);
+		LayerSystem m_LayerSystem;
 		unsigned int m_framebufferTexture;
 		ImGuiContext* m_imGuiContext;
 	};

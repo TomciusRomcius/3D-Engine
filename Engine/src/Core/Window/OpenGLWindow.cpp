@@ -58,8 +58,13 @@ namespace Engine3D
 		}
 		
 		// Initialize event system and a debugger
-		Event::Initialize(WINDOW);
+
+		EventSystem::Initialize(WINDOW, &m_LayerSystem);
 		DebugLayer::Initialize(WINDOW);
+		m_LayerSystem = LayerSystem();
+
+		auto imGuiLayer = new ImGuiLayer("ImGuiLayer");
+		m_LayerSystem.AttachLayer(imGuiLayer);
 
 		// Important to call before creating first object
 
@@ -134,6 +139,8 @@ namespace Engine3D
 			glEnable(GL_DEPTH_TEST);
 			ComponentManager::Update();
 			SceneCamera::Move();
+
+			m_LayerSystem.Update();
 
 			framebuffer.Unbind();
 			m_framebufferTexture = framebuffer.TextureId();
