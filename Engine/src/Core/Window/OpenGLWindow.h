@@ -25,7 +25,8 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "../LayerSystem.h"
-#include "../ImGuiLayer.h"
+#include "../../Layers/ImGuiLayer.h"
+#include "../../Layers/RendererLayer.h"
 
 namespace Engine3D
 {
@@ -41,7 +42,7 @@ namespace Engine3D
 	protected:
 		GLFWwindow* WINDOW;
 		void RenderUI(unsigned int framebufferTexture);
-		LayerSystem m_LayerSystem;
+		std::unique_ptr<LayerSystem> m_LayerSystem;
 		unsigned int m_framebufferTexture;
 		ImGuiContext* m_imGuiContext;
 	};

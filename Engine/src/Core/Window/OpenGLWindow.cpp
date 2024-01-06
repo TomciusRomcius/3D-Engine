@@ -1,6 +1,5 @@
 #include "enpch.h"
 #include "OpenGLWindow.h"
-#include <imgui.h>
 
 std::vector<glm::vec3> vertices = {
 	glm::vec3(-1.0f, 1.0f, 0.0f),  // Top Left
@@ -56,15 +55,18 @@ namespace Engine3D
 			std::cout << "Failed to initialize GLEW, exiting..." << std::endl;
 			return;
 		}
-		
+		glfwSetWindowAspectRatio(WINDOW, 16, 9);
 		// Initialize event system and a debugger
 
-		EventSystem::Initialize(WINDOW, &m_LayerSystem);
+		m_LayerSystem = std::make_unique<LayerSystem>(WINDOW);
+		EventSystem::Initialize(WINDOW, m_LayerSystem.get());
 		DebugLayer::Initialize(WINDOW);
-		m_LayerSystem = LayerSystem();
 
+		auto rendererLayer = new RendererLayer("RendererLayer");
 		auto imGuiLayer = new ImGuiLayer("ImGuiLayer");
-		m_LayerSystem.AttachLayer(imGuiLayer);
+		m_LayerSystem->AttachLayer(rendererLayer);
+		m_LayerSystem->AttachLayer(imGuiLayer);
+
 
 		// Important to call before creating first object
 
@@ -72,14 +74,6 @@ namespace Engine3D
 		ComponentManager::GetInstance().RegisterComponent<Transform>();
 		ComponentManager::GetInstance().RegisterComponent<Mesh>();
 		ComponentManager::GetInstance().RegisterComponent<MeshRenderer>();
-
-		IMGUI_CHECKVERSION();
-		m_imGuiContext = ImGui::CreateContext();
-		ImGuiIO& io = ImGui::GetIO(); (void)io;
-		ImGui::StyleColorsDark();
-		ImGui_ImplGlfw_InitForOpenGL(WINDOW, true);
-		ImGui_ImplOpenGL3_Init("#version 330");
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 		Start();
 		MainLoop();
@@ -99,27 +93,13 @@ namespace Engine3D
 		int frames = 0;
 		double sT = glfwGetTime();
 
-		auto framebuffer = Framebuffer();
-		auto vertBuffer = BufferElement(vertices.data(), BufferDataType::Float, vertices.size(), 3, false);
-		auto texBuffer = BufferElement(texCoords.data(), BufferDataType::Float, texCoords.size(), 2, false);
-		auto buffers = std::vector<BufferElement>{ vertBuffer, texBuffer };
-
-		auto quadVBO = VBO(buffers);
-		auto quadVAO = VertexArray(buffers);
-		auto quadEBO = EBO(indices);
-		auto program = new Program(new Shader(GL_VERTEX_SHADER, "framebuffer.vert"), new Shader(GL_FRAGMENT_SHADER, "framebuffer.frag"));
-		program->UseProgram();
-		glUniform1i(glGetUniformLocation(program->Id(), "screenTexture"), 0);
-		SceneManager::Initialize();
-		Start();
 
 		while (!glfwWindowShouldClose(WINDOW))
 		{
-			Update();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			// Time calculations
 			e = std::chrono::high_resolution_clock::now();
 			Time::ElapsedTime = (float)(e - s).count() / 1000000000.f;
-
 			double sN = glfwGetTime();
 			frames++;
 			if (sN - sT >= 1.0)
@@ -132,19 +112,8 @@ namespace Engine3D
 			t1 = std::chrono::high_resolution_clock::now();
 			Time::DeltaTime = (float)(t1 - t2).count() / 1000000000.f;
 
-			// Render to framebuffer
-			framebuffer.Bind();
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			glClearColor(0, 0, 0.1, 1);
-			glEnable(GL_DEPTH_TEST);
-			ComponentManager::Update();
-			SceneCamera::Move();
+			m_LayerSystem->Update();
 
-			m_LayerSystem.Update();
-
-			framebuffer.Unbind();
-			m_framebufferTexture = framebuffer.TextureId();
-			UIUpdate();
 			glfwSwapBuffers(WINDOW);
 			glfwPollEvents();
 		}
