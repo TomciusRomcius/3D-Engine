@@ -4,10 +4,9 @@
 
 namespace Engine3D
 {
-	class ENGINE_API Transform : public  IComponent
+	class ENGINE_API Transform : public IComponent
 	{
 	public:
-
 		void Start() override;
 		void Update() override;
 		glm::mat4 Mvp() const;
