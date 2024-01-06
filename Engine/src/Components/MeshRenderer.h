@@ -11,7 +11,6 @@ namespace Engine3D
 	public:
 		void Start() override;
 		void Update() override; // Draw the object
-
 		void SetShaderUniforms();
 		std::unique_ptr<Shader> vertexShader;
 		std::unique_ptr<Shader> fragmentShader;
