@@ -19,13 +19,11 @@
 #include "../../Components/Transform.h"
 #include "../../Components/Mesh.h"
 #include "../../Components/MeshRenderer.h"
-#include "imgui.h"
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
-
 
 #include "../Log.h"
 #include "IWindow.h"
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
 
 namespace Engine3D
 {
@@ -33,11 +31,16 @@ namespace Engine3D
 	{
 	public:
 		OpenGLWindow() {}
-		void Initialize(std::function<void()> start, std::function<void()> update) override;
-		void MainLoop(std::function<void()> start, std::function<void()> update);
+		void Initialize() override;
+		void MainLoop();
+		virtual void Start() {};
+		virtual void Update() {};
+		virtual void UIUpdate() {};
 	protected:
 		GLFWwindow* WINDOW;
 		void RenderUI(unsigned int framebufferTexture);
+		unsigned int m_framebufferTexture;
+		ImGuiContext* m_imGuiContext;
 	};
 
 

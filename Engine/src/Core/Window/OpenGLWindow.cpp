@@ -1,5 +1,6 @@
 #include "enpch.h"
 #include "OpenGLWindow.h"
+#include <imgui.h>
 
 std::vector<glm::vec3> vertices = {
 	glm::vec3(-1.0f, 1.0f, 0.0f),  // Top Left
@@ -23,7 +24,7 @@ std::vector<glm::vec2> texCoords = {
 
 namespace Engine3D
 {
-	void OpenGLWindow::Initialize(std::function<void()> start, std::function<void()> update)
+	void OpenGLWindow::Initialize()
 	{
 		
 		// Initialize GLFW and GLEW, Create window, setup Key and Error callbacks
@@ -68,18 +69,18 @@ namespace Engine3D
 		ComponentManager::GetInstance().RegisterComponent<MeshRenderer>();
 
 		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
+		m_imGuiContext = ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		ImGui::StyleColorsDark();
 		ImGui_ImplGlfw_InitForOpenGL(WINDOW, true);
 		ImGui_ImplOpenGL3_Init("#version 330");
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-
-		MainLoop(start, update);
+		Start();
+		MainLoop();
 	}
 
-	void OpenGLWindow::MainLoop(std::function<void()> start, std::function<void()> update)
+	void OpenGLWindow::MainLoop()
 	{
 		// Time variables for calculating delta 
 		std::chrono::high_resolution_clock::time_point t1;
@@ -105,11 +106,11 @@ namespace Engine3D
 		program->UseProgram();
 		glUniform1i(glGetUniformLocation(program->Id(), "screenTexture"), 0);
 		SceneManager::Initialize();
-		start();
+		Start();
 
 		while (!glfwWindowShouldClose(WINDOW))
 		{
-			update();
+			Update();
 			// Time calculations
 			e = std::chrono::high_resolution_clock::now();
 			Time::ElapsedTime = (float)(e - s).count() / 1000000000.f;
@@ -135,33 +136,10 @@ namespace Engine3D
 			SceneCamera::Move();
 
 			framebuffer.Unbind();
-			RenderUI(framebuffer.TextureId());
+			m_framebufferTexture = framebuffer.TextureId();
+			UIUpdate();
 			glfwSwapBuffers(WINDOW);
 			glfwPollEvents();
 		}
-	}
-	void OpenGLWindow::RenderUI(unsigned int framebufferTex)
-	{
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-		ImGui::DockSpaceOverViewport();
-		ImGui::Begin("Viewport");
-		ImGui::Image((void*)framebufferTex, ImVec2(1280, 720));
-		ImGui::End();
-		/*
-		ImGui::Begin("Hierarchy");
-		ImGui::Text("Hierarchy!");
-		ImGui::End();
-		ImGui::Begin("Inspector");
-		ImGui::Text("Inspector!");
-		ImGui::End();
-		ImGui::Begin("Asset manager");
-		ImGui::Text("Asset manager!");
-		ImGui::End();
-		*/
-		ImGui::Render();
-ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-		
 	}
 }

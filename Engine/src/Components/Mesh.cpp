@@ -2,6 +2,7 @@
 #include "Mesh.h"
 
 #define DSHADER_PATH(shader) ("../Engine/Shaders/" + std::string(shader)).c_str()
+#define MODEL_PATH(model) ("../Resources/Models/" + std::string(model)).c_str()
 
 namespace Engine3D
 {
@@ -32,7 +33,7 @@ namespace Engine3D
 		normals.clear();
 
 		std::ifstream file;
-		file.open(modelPath);
+		file.open(MODEL_PATH(modelPath));
 		if (!file.is_open())
 		{
 			EN_ERROR("Failed to load model: " + std::string(modelPath))

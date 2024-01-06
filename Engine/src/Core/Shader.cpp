@@ -1,7 +1,11 @@
 #include "enpch.h"
 #include "Shader.h"
 
-#define DSHADER_PATH(shader) ("../Engine/Shaders/" + std::string(shader)).c_str()
+#ifdef DIST
+	#define DSHADER_PATH(shader) ("Shaders/" + std::string(shader)).c_str()
+#else
+	#define DSHADER_PATH(shader) ("../Resources/Shaders/" + std::string(shader)).c_str()
+#endif
 
 namespace Engine3D
 {

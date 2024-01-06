@@ -1,26 +1,26 @@
 workspace "3D-Engine"
     architecture "x64"
-    configurations {"Debug", "Release", "Dist"}
-
+    configurations {"EngineDebug", "EngineRelease", "EngineDist, GameDebug, GameRelease, GameDist"}
+    
     project "Engine"
-        kind "SharedLib"
+        kind "ConsoleApp"
         location "Engine"
         language "c++"
 
-        links {"imgui"}
 
         outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-        targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-        objdir ("bin-int/".. outputdir .."/%{prj.name}")
+        targetdir ("bin/" .. outputdir)
+        objdir ("bin-int/".. outputdir)
 
         pchheader "enpch.h"
         pchsource "%{prj.name}/src/enpch.cpp"
 
         files
         {
+            "%{prj.name}/src",
             "%{prj.name}/src/**.h",
-            "%{prj.name}/src/**.cpp"
+            "%{prj.name}/src/**.cpp",
         }
         includedirs
         {
@@ -41,49 +41,48 @@ workspace "3D-Engine"
 
         links
         {
+            "imgui",
             "opengl32.lib",
             "glew32s.lib",
             "glfw3.lib"
         }
-        postbuildcommands
-        {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-        }
-        filter "configurations:Debug"
-            defines {"DEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}
+        filter "configurations:EngineDebug"
+            defines {"ENGINE_DEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}
             symbols "On"
-        filter "configurations:Release"
+        filter "configurations:EngineRelease"
             defines {"NDEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}
             optimize "On"
-        filter "configurations:Dist"
+        filter "configurations:EngineDist"
+            defines {"NDEBUG", "Dist", "EN_BUILD_DLL", "GLEW_STATIC"}
+            optimize "On"
+        filter "configurations:GameDebug"
+            defines {"GAME_DEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}
+            symbols "On"
+        filter "configurations:GameRelease"
+            defines {"NDEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}
+            optimize "On"
+        filter "configurations:GameDist"
             defines {"NDEBUG", "Dist", "EN_BUILD_DLL", "GLEW_STATIC"}
             optimize "On"
 
-    project "Sandbox"
-        kind "ConsoleApp"
-        location "Sandbox"
+        targetDirectory = "bin/" .. outputdir .. "/Shaders"
+        postbuildcommands
+        {
+            ("{COPY} %{prj.name}/Shaders %{targetDirectory}")
+        }
+
+    project "imgui"
+        kind "SharedLib"
+        location "imgui"
         language "c++"
 
         outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-        targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-        objdir ("bin-int/".. outputdir .."/%{prj.name}")
-
-
-        files
-        {
-            "%{prj.name}/src/**.h",
-            "%{prj.name}/src/**.cpp"
-        }
         includedirs
         {
+            "%{prj.name}",
             "vendor/glfw/include",
-            "vendor/glew/include",
-            "vendor/glm-master",
-            "vendor/spdlog/include",
-            "vendor/stb/include",
-            "vendor/imgui",
-            "Engine/src"
+            "vendor/glew/include"
         }
 
         libdirs
@@ -94,62 +93,15 @@ workspace "3D-Engine"
 
         links
         {
-            "Engine",
             "opengl32.lib",
             "glew32s.lib",
             "glfw3.lib"
         }
-        filter "configurations:Debug"
-            defines {"DEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}
-            symbols "On"
-        filter "configurations:Release"
-            defines {"NDEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}
-            optimize "On"
-        filter "configurations:Dist"
-            defines {"NDEBUG", "Dist", "EN_BUILD_DLL", "GLEW_STATIC"}
-            optimize "On"
-    project "imgui"
-        kind "StaticLib"
-        location "imgui"
-        language "c++"
 
-        outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+        targetdir ("bin/" .. outputdir)
+        objdir ("bin-int/".. outputdir)
 
-        targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-        objdir ("bin-int/".. outputdir .."/%{prj.name}")
-        
-        files
-        {
+        files {
+            "%{prj.name}/**.h",
             "%{prj.name}/**.cpp",
-            "%{prj.name}/**.h"
         }
-
-        includedirs
-        {
-            "vendor/glfw/include",
-            "vendor/glew/include",
-            "vendor/glm-master",
-            "vendor/spdlog/include",
-            "vendor/stb/include",
-            "vendor/imgui",
-            "Engine/src"
-        }
-        libdirs
-        {
-            "vendor/glfw/lib",
-            "vendor/glew/lib/Release/x64"
-        }
-
-        filter "configurations:Debug"
-            defines {"DEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}
-            symbols "On"
-        filter "configurations:Release"
-            defines {"NDEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}
-            optimize "On"
-        filter "configurations:Dist"
-            defines {"NDEBUG", "Dist", "EN_BUILD_DLL", "GLEW_STATIC"}
-            optimize "On"
-
-
-
-

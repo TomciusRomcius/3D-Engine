@@ -10,7 +10,7 @@ namespace Engine3D
 		DirectX = 2
 	};
 
-	class Application
+	class ENGINE_API Application
 	{
 	public:
 		void Initialize(RenderAPI api)
@@ -27,15 +27,9 @@ namespace Engine3D
 			}
 		}
 
-		void Run() {	
-			window->Initialize(std::bind(
-				&Application::Start, this),
-				std::bind(&Application::Update, this)
-			);
+		void Run() {
+			window->Initialize();
 		};
-
-		virtual void Start() = 0;
-		virtual void Update() = 0;
 
 	private:
 		std::unique_ptr<IWindow> window;
