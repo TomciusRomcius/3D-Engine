@@ -2,7 +2,7 @@
 #include "../Core/VBO.h"
 #include "../Core/EBO.h"
 #include "../Core/EBO.h"
-#include "../Core/ECS/ObjectSystem.h"
+#include "ObjectSystem.h"
 
 namespace Engine3D
 {
