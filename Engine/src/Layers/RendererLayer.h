@@ -1,39 +1,15 @@
 #pragma once
 #include "Core/Layer.h"
 #include "Core/FrameBuffer.h"
-#include "Core/SceneManager.h"
 #include "Core/BufferElement.h"
 #include "Core/Program.h"
 #include "Core/VBO.h"
 #include "Core/EBO.h"
 #include "Core/VertexArray.h"
-#include "Core/ECS/ComponentManager.h"
-#include "Components/Transform.h"
-#include "Components/Mesh.h"
-#include "Components/MeshRenderer.h"
 #include "Core/Input.h"
 
 namespace Engine3D
 {
-	struct ComponentTest : public IComponent
-	{
-		void Start() override
-		{
-			Input::AddMousePressCallback(GLFW_MOUSE_BUTTON_LEFT, []() {
-				std::cout << "Mouse 1 pressed" << std::endl;
-			});
-			Input::AddMousePressCallback(GLFW_MOUSE_BUTTON_RIGHT, []() {
-				std::cout << "Mouse 2 pressed" << std::endl;
-			});
-			Input::AddKeyPressCallback(GLFW_KEY_A, []() {
-				std::cout << "W pressed" << std::endl;
-			});
-		}
-		void Update() override
-		{
-		}
-
-	};
 
 	static std::vector<glm::vec3> vertices = {
 		glm::vec3(-1.0f, 1.0f, 0.0f),  // Top Left
@@ -57,64 +33,13 @@ namespace Engine3D
 	class RendererLayer : public Layer
 	{
 	public:
-		RendererLayer(std::string name)
-			: Layer(name)
-		{
-			auto vertBuffer = BufferElement(vertices.data(), BufferDataType::Float, vertices.size(), 3, false);
-			auto texBuffer = BufferElement(texCoords.data(), BufferDataType::Float, texCoords.size(), 2, false);
-			// void* data,
-			std::vector<BufferElement> buffers = { vertBuffer, texBuffer };
-			m_VBO = std::make_unique<VBO>(buffers);
-			m_VAO = std::make_unique<VertexArray>(buffers);
-			m_EBO = std::make_unique<EBO>(indices);
-			m_Program = std::make_unique<Program>(
-				new Shader(GL_VERTEX_SHADER, "framebuffer.vert"),
-				new Shader(GL_FRAGMENT_SHADER, "framebuffer.frag"));
-			m_Program->UseProgram();
-			glUniform1i(glGetUniformLocation(m_Program->Id(), "screenTexture"), 0);
-			m_Framebuffer = std::make_unique<Framebuffer>();
-		}
+		RendererLayer(std::string name);
 		~RendererLayer()
 		{ }
-		void OnAttach() override
-		{
-			SceneManager::Initialize();
-			std::cout << "RendererLayer attached" << std::endl;
-			Object* obj = new Object("Object");
-			obj->AddComponent<MeshRenderer>();
-			obj->AddComponent<Transform>();
-			obj->GetComponent<Transform>().position.z = -5;
-			obj->GetComponent<Transform>().rotation.y = 45;
-			obj->AddComponent<Mesh>();
-			obj->AddComponent<ComponentTest>();
-			obj->GetComponent<Mesh>().LoadModel("Cube.obj");
-		}
-		void OnDetach()
-		{
-			std::cout << "RendererLayer detached" << std::endl;
-		}
-		void Update() override
-		{
-			// Render to framebuffer
-			m_Framebuffer->Bind();
-			glDisable(GL_DEPTH_TEST);
-			glClear(GL_COLOR_BUFFER_BIT);
-
-			ComponentManager::Update();
-			SceneCamera::Move();
-
-			m_Framebuffer->Unbind();
-			m_VBO->Bind();
-			m_VAO->Bind();
-			m_EBO->Bind();
-			m_Program->UseProgram();
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		}
-		void OnEvent(Event* event, EventType eventType)
-		{
-			Input::OnEvent(event, eventType);
-			event->StopPropagation();
-		}
+		void OnAttach() override;
+		void OnDetach();
+		void Update() override;
+		void OnEvent(Event* event, EventType eventType);
 
 		inline unsigned int GetFrameBufferTextureID() 		{
 			return m_Framebuffer->TextureId();
