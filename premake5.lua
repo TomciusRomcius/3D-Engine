@@ -6,7 +6,9 @@ workspace "3D-Engine"
         kind "ConsoleApp"
         location "Engine"
         language "c++"
-
+        cppdialect "C++17"
+        staticruntime "off"
+        runtime "Debug"
 
         outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
@@ -30,7 +32,8 @@ workspace "3D-Engine"
             "vendor/spdlog/include",
             "vendor/stb/include",
             "imgui",
-            "%{prj.name}/src/"
+            "%{prj.name}/src/",
+            "ECS"
         }
 
         libdirs
@@ -44,7 +47,8 @@ workspace "3D-Engine"
             "imgui",
             "opengl32.lib",
             "glew32s.lib",
-            "glfw3.lib"
+            "glfw3.lib",
+            "ECS",
         }
         filter "configurations:EngineDebug"
             defines {"ENGINE_DEBUG", "EN_BUILD_DLL", "GLEW_STATIC"}
@@ -71,10 +75,46 @@ workspace "3D-Engine"
             ("{COPY} %{prj.name}/Shaders %{targetDirectory}")
         }
 
+    project "ECS"
+        kind "StaticLib"
+        location "ECS"
+        language "c++"
+        pchheader "pch.h"
+        pchsource "%{prj.name}/pch.cpp"
+        cppdialect "C++17"
+        staticruntime "off"
+        runtime "Debug"
+
+        outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+        targetdir ("bin/" .. outputdir)
+        objdir ("bin-int/".. outputdir)
+
+        files {
+            "%{prj.name}/**.h",
+            "%{prj.name}/**.cpp",
+        }
+
+        libdirs
+        {
+            "vendor/glfw/lib",
+            "vendor/glew/lib/Release/x64"
+        }
+
+        links
+        {
+            "opengl32.lib",
+            "glew32s.lib",
+            "glfw3.lib"
+        }
+
+        
+
     project "imgui"
-        kind "SharedLib"
+        kind "StaticLib"
         location "imgui"
         language "c++"
+        staticruntime "off"
+        runtime "Debug"
 
         outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
