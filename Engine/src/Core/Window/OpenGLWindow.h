@@ -1,24 +1,14 @@
 #pragma once
 
 #include <chrono>
-
 #include "Events/EventSystem.h"
 #include "../DebugLayer.h"
-#include "enpch.h"
-
+#include "Core/Time.h"
 #include "../VBO.h"
 #include "../VertexArray.h"
 #include "../Shader.h"
 #include "../Program.h"
 #include "../FrameBuffer.h"
-
-#include "Time.h"
-
-#include "../ECS/ObjectSystem.h"
-#include "../../Components/IComponent.h"
-#include "../../Components/Transform.h"
-#include "../../Components/Mesh.h"
-#include "../../Components/MeshRenderer.h"
 
 #include "../Log.h"
 #include "IWindow.h"
@@ -41,7 +31,7 @@ namespace Engine3D
 		virtual void UIUpdate() {};
 	protected:
 		GLFWwindow* WINDOW;
-		void RenderUI(unsigned int framebufferTexture);
+		//void RenderUI(unsigned int framebufferTexture);
 		std::unique_ptr<LayerSystem> m_LayerSystem;
 		unsigned int m_framebufferTexture;
 		ImGuiContext* m_imGuiContext;

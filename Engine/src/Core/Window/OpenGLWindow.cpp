@@ -1,26 +1,6 @@
 #include "enpch.h"
 #include "OpenGLWindow.h"
 
-std::vector<glm::vec3> vertices = {
-	glm::vec3(-1.0f, 1.0f, 0.0f),  // Top Left
-	glm::vec3(1.0f, 1.0f, 0.0f),   // Top Right
-	glm::vec3(1.0f, -1.0f, 0.0f),  // Bottom Right
-	glm::vec3(-1.0f, -1.0f, 0.0f)  // Bottom Left
-};
-
-std::vector<unsigned int> indices = {
-	0, 1, 2,    // First Triangle
-	2, 3, 0     // Second Triangle
-};
-
-std::vector<glm::vec2> texCoords = {
-	glm::vec2(0.0f, 0.0f), // Bottom Left
-	glm::vec2(1.0f, 0.0f), // Bottom Right
-	glm::vec2(1.0f, 1.0f), // Top Right
-	glm::vec2(0.0f, 1.0f)  // Top Left
-};
-
-
 namespace Engine3D
 {
 	void OpenGLWindow::Initialize()
@@ -40,7 +20,7 @@ namespace Engine3D
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, versionmajor);
 
 		// Create OpenGLWindow
-		OpenGLWindow::WINDOW = glfwCreateWindow(1280, 720, "OpenGL 3D Modeler", nullptr, nullptr);
+		OpenGLWindow::WINDOW = glfwCreateWindow(1600, 900, "OpenGL 3D Modeler", nullptr, nullptr);
 
 		if (WINDOW == nullptr)
 		{
@@ -68,13 +48,6 @@ namespace Engine3D
 		m_LayerSystem->AttachLayer(imGuiLayer);
 
 
-		// Important to call before creating first object
-
-		// Register primary components
-		ComponentManager::GetInstance().RegisterComponent<Transform>();
-		ComponentManager::GetInstance().RegisterComponent<Mesh>();
-		ComponentManager::GetInstance().RegisterComponent<MeshRenderer>();
-
 		Start();
 		MainLoop();
 	}
@@ -93,7 +66,6 @@ namespace Engine3D
 		int frames = 0;
 		double sT = glfwGetTime();
 
-
 		while (!glfwWindowShouldClose(WINDOW))
 		{
 			glClearColor(0.0f, 0.05f, 0.3f, 1.0f);
@@ -110,7 +82,7 @@ namespace Engine3D
 
 			t2 = t1;
 			t1 = std::chrono::high_resolution_clock::now();
-			Time::DeltaTime = (float)(t1 - t2).count() / 1000000000.f;
+			Engine3D::Time::DeltaTime = (float)(t1 - t2).count() / 1000000000.f;
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			m_LayerSystem->Update();
