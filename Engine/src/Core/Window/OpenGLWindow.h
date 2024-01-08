@@ -15,7 +15,7 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "../LayerSystem.h"
-#include "../../Layers/ImGuiLayer.h"
+#include "../../Layers/ImGui/ImGuiLayer.h"
 #include "../../Layers/RendererLayer.h"
 
 namespace Engine3D

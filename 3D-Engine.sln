@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ECS", "ECS\ECS.vcxproj", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameComponent", "GameComponent\GameComponent.vcxproj", "{B2FB321E-1EBC-AE54-E7F6-F7D15376F330}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imgui", "imgui\imgui.vcxproj", "{0098A80F-6CAC-D0C0-352E-7420A101CDF1}"
 EndProject
 Global
@@ -26,6 +28,12 @@ Global
 		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}.EngineDist, GameDebug, GameRelease, GameDist|x64.Build.0 = EngineDist, GameDebug, GameRelease, GameDist|x64
 		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}.EngineRelease|x64.ActiveCfg = EngineRelease|x64
 		{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}.EngineRelease|x64.Build.0 = EngineRelease|x64
+		{B2FB321E-1EBC-AE54-E7F6-F7D15376F330}.EngineDebug|x64.ActiveCfg = EngineDebug|x64
+		{B2FB321E-1EBC-AE54-E7F6-F7D15376F330}.EngineDebug|x64.Build.0 = EngineDebug|x64
+		{B2FB321E-1EBC-AE54-E7F6-F7D15376F330}.EngineDist, GameDebug, GameRelease, GameDist|x64.ActiveCfg = EngineDist, GameDebug, GameRelease, GameDist|x64
+		{B2FB321E-1EBC-AE54-E7F6-F7D15376F330}.EngineDist, GameDebug, GameRelease, GameDist|x64.Build.0 = EngineDist, GameDebug, GameRelease, GameDist|x64
+		{B2FB321E-1EBC-AE54-E7F6-F7D15376F330}.EngineRelease|x64.ActiveCfg = EngineRelease|x64
+		{B2FB321E-1EBC-AE54-E7F6-F7D15376F330}.EngineRelease|x64.Build.0 = EngineRelease|x64
 		{0098A80F-6CAC-D0C0-352E-7420A101CDF1}.EngineDebug|x64.ActiveCfg = EngineDebug|x64
 		{0098A80F-6CAC-D0C0-352E-7420A101CDF1}.EngineDebug|x64.Build.0 = EngineDebug|x64
 		{0098A80F-6CAC-D0C0-352E-7420A101CDF1}.EngineDist, GameDebug, GameRelease, GameDist|x64.ActiveCfg = EngineDist, GameDebug, GameRelease, GameDist|x64

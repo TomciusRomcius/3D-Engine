@@ -1,5 +1,6 @@
 #include "enpch.h"
 #include "ImGuiLayer.h"
+#include "Inspector.h"
 
 Engine3D::ImGuiLayer::ImGuiLayer(std::string name)
 	: Layer(name)
@@ -17,6 +18,16 @@ void Engine3D::ImGuiLayer::OnAttach()
 	ImGui_ImplGlfw_InitForOpenGL(m_WINDOW, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	// Styling
+	ImGuiStyle& style = ImGui::GetStyle();
+
+	m_Sections.push_back(std::make_unique<Hierarchy>());
+	m_Sections.push_back(std::make_unique<Inspector>());
+
+	for (auto& section : m_Sections)
+	{
+		section->Start();
+	}
 }
 
 void Engine3D::ImGuiLayer::OnDetach()
@@ -45,8 +56,12 @@ void Engine3D::ImGuiLayer::Update()
 	ImGui::Begin("Viewport");
 	ImGui::Image((void*)m_RendererLayer->GetFrameBufferTextureID(), ImVec2(1024, 576), ImVec2(0, 1), ImVec2(1, 0));
 	ImGui::End();
-	RenderHierarchy();
-	RenderInspector();
+	
+	for (auto& section : m_Sections)
+	{
+		section->Update();
+	}
+
 	ImGui::Begin("Asset manager");
 	ImGui::End();
 	ImGui::Render();
@@ -55,75 +70,19 @@ void Engine3D::ImGuiLayer::Update()
 
 void Engine3D::ImGuiLayer::OnEvent(Event* event, EventType eventType)
 {
-	if (eventType == EventType::MouseButtonEvent)
+	for (auto& section : m_Sections)
 	{
-		event->StopPropagation();
+		section->OnEvent(event, eventType);
 	}
 }
 
 void Engine3D::ImGuiLayer::RenderHierarchy()
 {
-	ImGui::Begin("Scene Hierarchy");
-	auto& objects = sceneManager.CurrentScene().namedObjects;
-	for (auto& object : objects)
-	{
-		if (ImGui::Button(object.first.c_str(), ImVec2(ImGui::GetContentRegionAvail().x, 0)))
-		{
-			m_SelectedObject = object.second;
-		}
-	}
-	ImGui::End();
 }
 
 void Engine3D::ImGuiLayer::RenderInspector()
 {
-	ImGui::Begin("Inspector");
-
-	if (m_SelectedObject != nullptr)
-	{
-		ImGui::Text(std::to_string(m_SelectedObject->Id()).c_str());
-		auto& transform = m_SelectedObject->GetComponent<Transform>();
-		auto& meshRenderer = m_SelectedObject->GetComponent<MeshRenderer>();
-		auto& mesh = m_SelectedObject->GetComponent<Mesh>();
-		if (ImGui::TreeNode("Transform"))
-		{
-			ImGui::DragFloat3("Position", &transform.position.x, 0.1f);
-			ImGui::DragFloat3("Rotation", &transform.rotation.x, 0.1f);
-			ImGui::DragFloat3("Scale", &transform.scale.x, 0.1f);
-			ImGui::TreePop();
-		}
-		if (ImGui::TreeNode("Mesh"))
-		{
-			std::string loadedModel = mesh.GetLoadedModel();
-			if (loadedModel != "")
-			{
-				ImGui::Text(("Loaded model: " + loadedModel).c_str());
-			}
-			else
-			{
-				ImGui::Text("No model loaded");
-			}
-			ImGui::Button("Load model");
-			ImGui::TreePop();
-		}
-
-		static bool open = true;
-
-		if (ImGui::Button("Create component")) open = !open;
-		if (open)
-		{
-			const int MAX_NAME_LENGTH = 50;
-			static char name[MAX_NAME_LENGTH] = "";
-			ImGui::InputText("Component name", name, MAX_NAME_LENGTH);
-			ImGui::Text("Entered text: %s", name);
-			if (ImGui::Button("Create"))
-			{
-				std::string sName = convertCharToString(name, MAX_NAME_LENGTH);
-				CreateComponent(sName);
-			}
-		}
-	}
-	ImGui::End();
+	
 }
 
 void Engine3D::ImGuiLayer::CreateComponent(std::string name)

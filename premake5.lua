@@ -145,3 +145,27 @@ workspace "3D-Engine"
             "%{prj.name}/**.h",
             "%{prj.name}/**.cpp",
         }
+
+    project "GameComponent"
+        kind "SharedLib"
+        location "GameComponent"
+        language "c++"
+        cppdialect "C++17"
+
+        outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+        targetdir ("bin/" .. outputdir)
+        objdir ("bin-int/".. outputdir)
+
+        files {
+            "%{prj.name}/**.h",
+            "%{prj.name}/**.cpp",
+        }
+        includedirs
+        {
+            "ECS"
+        }
+
+        links
+        {
+            "ECS"
+        }

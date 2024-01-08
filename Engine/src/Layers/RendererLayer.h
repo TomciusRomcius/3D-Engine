@@ -45,6 +45,7 @@ namespace Engine3D
 			return m_Framebuffer->TextureId();
 		}
 	private:
+		//std::map<std::string, ComponentData> componentDLLS;
 		std::unique_ptr<Framebuffer> m_Framebuffer;
 		std::unique_ptr<VBO> m_VBO;
 		std::unique_ptr<EBO> m_EBO;

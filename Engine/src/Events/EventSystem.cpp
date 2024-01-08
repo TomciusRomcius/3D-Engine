@@ -22,7 +22,6 @@ namespace Engine3D
         bool isDown = action == GLFW_PRESS;
         auto event = new KeyboardEvent(key, isDown);
         m_LayerSystem->OnEvent(event, EventType::KeyboardEvent);
-
     }
     void EventSystem::m_MouseCursorCallback(GLFWwindow* window, double xPos, double yPos)
     {
