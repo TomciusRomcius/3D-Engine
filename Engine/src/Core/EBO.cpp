@@ -20,7 +20,6 @@ namespace Engine3D
 	EBO::~EBO()
 	{
 		EN_TRACE("Deleting element buffer object id = " + std::to_string(id));
-
 		glDeleteBuffers(1, &id);
 	}
 }
